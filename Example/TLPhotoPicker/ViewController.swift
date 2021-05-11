@@ -115,6 +115,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     }
     
     @IBAction func pickerWithCustomLayout() {
+                
         let viewController = TLPhotosPickerViewController()
         viewController.delegate = self
         viewController.didExceedMaximumNumberOfSelection = { [weak self] (picker) in
@@ -122,8 +123,14 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         }
         viewController.customDataSouces = CustomDataSources()
         var configure = TLPhotosPickerConfigure()
+        configure.customLocalizedTitle = ["Recents":"すべて","Panoramas":"パノラマ", "Time-lapse":"タイムラプス" ,"Bursts":"バースト","Slo-mo":"スローモーション","Screenshots":"スクリーンショット","Selfies":"セルフィー","Favorites":"お気に入り","Videos":"ビデオ", "Live Photos": "Live Photos"]
+        configure.tapHereToChange = "タップして変更"
+        
+        configure.nibSet = (nibName: "CustomCellCollectionViewCell", bundle: Bundle.main)
         configure.numberOfColumn = 3
         configure.groupByFetch = .day
+        configure.autoPlay = true
+        configure.usedCameraButton = false
         viewController.configure = configure
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A11FE35264A6F0400394322 /* ScrollBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11FE34264A6F0400394322 /* ScrollBar.swift */; };
 		18465DA0206E8A8B0015A715 /* TLPhotoPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 18465D9E206E8A8B0015A715 /* TLPhotoPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18465DB0206E8AEB0015A715 /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18465DA6206E8AEB0015A715 /* TLPhotosPickerViewController.swift */; };
 		18465DB1206E8AEB0015A715 /* TLCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18465DA7206E8AEB0015A715 /* TLCollectionTableViewCell.xib */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A11FE34264A6F0400394322 /* ScrollBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollBar.swift; path = Classes/ScrollBar.swift; sourceTree = SOURCE_ROOT; };
 		18465D9B206E8A8B0015A715 /* TLPhotoPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TLPhotoPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18465D9E206E8A8B0015A715 /* TLPhotoPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLPhotoPicker.h; sourceTree = "<group>"; };
 		18465D9F206E8A8B0015A715 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				18465DAA206E8AEB0015A715 /* TLPhotoCollectionViewCell.swift */,
 				18465DA8206E8AEB0015A715 /* TLPhotoCollectionViewCell.xib */,
 				18465DAE206E8AEB0015A715 /* TLPhotoLibrary.swift */,
+				0A11FE34264A6F0400394322 /* ScrollBar.swift */,
 				18465DA6206E8AEB0015A715 /* TLPhotosPickerViewController.swift */,
 				18465DAF206E8AEB0015A715 /* TLPhotosPickerViewController.xib */,
 				18465D9E206E8A8B0015A715 /* TLPhotoPicker.h */,
@@ -135,7 +138,7 @@
 		18465D92206E8A8B0015A715 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = wade.hawk;
 				TargetAttributes = {
 					18465D9A206E8A8B0015A715 = {
@@ -192,6 +195,7 @@
 				18465DB5206E8AEB0015A715 /* TLCollectionTableViewCell.swift in Sources */,
 				18465DB8206E8AEB0015A715 /* TLPhotoLibrary.swift in Sources */,
 				18465DB4206E8AEB0015A715 /* TLPhotoCollectionViewCell.swift in Sources */,
+				0A11FE35264A6F0400394322 /* ScrollBar.swift in Sources */,
 				18465DB3206E8AEB0015A715 /* TLBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,6 +228,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -250,7 +255,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -286,6 +291,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -306,7 +312,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

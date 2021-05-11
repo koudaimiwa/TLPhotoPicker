@@ -41,7 +41,7 @@ struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
     func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset])) {
         if let reuseView = view as? CustomHeaderView {
             let dateFormat = DateFormatter()
-            dateFormat.dateFormat = "MMM dd, yyyy"
+            dateFormat.dateFormat = "yyyy年 M月dd日"
             dateFormat.locale = Locale.current
             if let date = section.assets.first?.phAsset?.creationDate {
                 reuseView.titleLabel.text = dateFormat.string(from: date)

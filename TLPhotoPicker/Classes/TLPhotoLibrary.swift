@@ -259,6 +259,10 @@ extension TLPhotoLibrary {
                 getSmartAlbum(subType: .smartAlbumSelfPortraits, result: &assetCollections)
                 //Panoramas
                 getSmartAlbum(subType: .smartAlbumPanoramas, result: &assetCollections)
+                //Timelapses
+                getSmartAlbum(subType: .smartAlbumTimelapses, result: &assetCollections)
+                //Bursts
+                getSmartAlbum(subType: .smartAlbumBursts, result: &assetCollections)
                 //Favorites
                 getSmartAlbum(subType: .smartAlbumFavorites, result: &assetCollections)
                 //CloudShared
@@ -268,6 +272,12 @@ extension TLPhotoLibrary {
                 if configure.allowedVideo {
                     //Videos
                     getSmartAlbum(subType: .smartAlbumVideos, result: &assetCollections)
+                    //Slomo Videos
+                    getSmartAlbum(subType: .smartAlbumSlomoVideos, result: &assetCollections)
+                    //Live Photos
+                    if #available(iOS 10.3, *) {
+                        getSmartAlbum(subType: .smartAlbumLivePhotos, result: &assetCollections)
+                    }
                 }
                 //Album
                 let collectionOption = fetchCollectionOption[.topLevelUserCollections]

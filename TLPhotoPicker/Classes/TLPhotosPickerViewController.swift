@@ -52,7 +52,7 @@ extension TLPhotosPickerLogDelegate {
 }
 
 public struct TLPhotosPickerConfigure {
-    public var customLocalizedTitle: [String: String] = ["Camera Roll": "Camera Roll"]
+    public var customLocalizedTitle: [String: String] = [:]
     public var tapHereToChange = "Tap here to change"
     public var cancelTitle = "Cancel"
     public var doneTitle = "Done"
@@ -153,6 +153,10 @@ open class TLPhotosPickerViewController: UIViewController {
     open var selectedAssets = [TLPHAsset]()
     public var configure = TLPhotosPickerConfigure()
     public var customDataSouces: TLPhotopickerDataSourcesProtocol? = nil
+    private var scrollBar: ScrollBar!
+    private var beforeDateString = ""
+    
+    private let cellSpace: CGFloat = 1
     
     private var usedCameraButton: Bool {
         return self.configure.usedCameraButton
@@ -385,7 +389,7 @@ extension TLPhotosPickerViewController {
             return
         }
         let count = CGFloat(self.configure.numberOfColumn)
-        let width = floor((self.view.frame.size.width-(5*(count-1)))/count)
+        let width = floor((self.view.frame.size.width-(cellSpace*(count-1)))/count)
         self.thumbnailSize = CGSize(width: width, height: width)
         layout.itemSize = self.thumbnailSize
         self.collectionView.collectionViewLayout = layout
@@ -404,7 +408,7 @@ extension TLPhotosPickerViewController {
         self.indicator.startAnimating()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(titleTap))
         self.titleView.addGestureRecognizer(tapGesture)
-        self.titleLabel.text = self.configure.customLocalizedTitle["Camera Roll"]
+        self.titleLabel.text = self.configure.customLocalizedTitle["Recents"]
         self.subTitleLabel.text = self.configure.tapHereToChange
         self.cancelButton.title = self.configure.cancelTitle
         self.doneButton.title = self.configure.doneTitle
@@ -427,6 +431,9 @@ extension TLPhotosPickerViewController {
             self.allowedLivePhotos = false
         }
         self.customDataSouces?.registerSupplementView(collectionView: self.collectionView)
+        
+        scrollBar = ScrollBar(scrollView: collectionView)
+        scrollBar.dataSource = self
     }
     
     private func updatePresentLimitedLibraryButton() {
@@ -1140,7 +1147,7 @@ extension TLPhotosPickerViewController: UICollectionViewDelegateFlowLayout {
                                                                         withReuseIdentifier: identifier,
                                                                         for: indexPath)
         if let section = self.focusedCollection?.sections?[safe: indexPath.section] {
-            self.customDataSouces?.configure(supplement: reuseView, section: section)
+                    self.customDataSouces?.configure(supplement: reuseView, section: section)
         }
         return reuseView
     }
@@ -1157,6 +1164,14 @@ extension TLPhotosPickerViewController: UICollectionViewDelegateFlowLayout {
             return self.customDataSouces?.footerReferenceSize() ?? CGSize.zero
         }
         return CGSize.zero
+    }
+    
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return cellSpace
+    }
+    
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return cellSpace
     }
 }
 
@@ -1237,6 +1252,24 @@ extension TLPhotosPickerViewController: UIViewControllerPreviewingDelegate {
                 return UIMenu(title: "", children: [toggleSelection])
             }
         )
+    }
+}
+
+//MARK: ScrollBarDataSource
+extension TLPhotosPickerViewController: ScrollBarDataSource {
+    func textForHintView(_ hintView: UIView, at point: CGPoint, for scrollBar: ScrollBar) -> String? {
+        if let indexPath = collectionView.indexPathForItem(at: CGPoint(x: 0, y: point.y)) {
+            if let section = self.focusedCollection?.sections?[safe: indexPath.section] {
+                let dateFormat = DateFormatter()
+                dateFormat.dateFormat = "yyyy年 M月dd日"
+                dateFormat.locale = Locale.current
+                if let date = section.assets.first?.phAsset?.creationDate {
+                    beforeDateString = dateFormat.string(from: date)
+                    return dateFormat.string(from: date)
+                }
+            }
+        }
+        return beforeDateString
     }
 }
 
