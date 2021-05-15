@@ -11,6 +11,7 @@ import Photos
 import TLPhotoPicker
 
 struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
+    
     func headerReferenceSize() -> CGSize {
         return CGSize(width: 320, height: 50)
     }
@@ -38,16 +39,32 @@ struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
                                 withReuseIdentifier: "CustomFooterView")
     }
     
-    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset])) {
+    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), sectionIndex: Int, pickerVC: TLPhotosPickerViewController, isAllSelected: Bool) {
         if let reuseView = view as? CustomHeaderView {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy年 M月dd日"
             dateFormat.locale = Locale.current
+            
             if let date = section.assets.first?.phAsset?.creationDate {
                 reuseView.titleLabel.text = dateFormat.string(from: date)
             }
-        }else if let reuseView = view as? CustomFooterView {
+            reuseView.toggleCheckBtn(isAllSelected: isAllSelected)
+            reuseView.toggleAllBtn = { isSelected in
+                for index in 0...section.assets.count {
+                    let indexPath = IndexPath(row: index, section: sectionIndex)
+                    let cell = pickerVC.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell
+                    pickerVC.toggleSelection(for: cell, at: indexPath, isAllSelected: isSelected)
+                }
+            }
+        } else if let reuseView = view as? CustomFooterView {
             reuseView.titleLabel.text = "Footer"
         }
+    }
+    
+    func toggleSelection(supplement view: UICollectionReusableView?, isAllSelected: Bool) {
+        guard let _view = view, let reuseView = _view as? CustomHeaderView else {
+            return
+        }
+        reuseView.toggleCheckBtn(isAllSelected: isAllSelected)
     }
 }

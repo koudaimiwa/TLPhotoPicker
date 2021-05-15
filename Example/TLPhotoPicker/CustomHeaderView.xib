@@ -20,14 +20,24 @@
                     <color key="textColor" red="0.30980392156862746" green="0.30980392156862746" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PGv-vV-gtp">
+                    <rect key="frame" x="346" y="13" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="bFP-XI-A58"/>
+                        <constraint firstAttribute="height" constant="24" id="hbP-Jb-Bas"/>
+                    </constraints>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="AWg-C1-RAL"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="eGZ-4Q-fj7" firstAttribute="centerY" secondItem="AWg-C1-RAL" secondAttribute="centerY" id="1mb-SE-BQ6"/>
+                <constraint firstItem="AWg-C1-RAL" firstAttribute="trailing" secondItem="PGv-vV-gtp" secondAttribute="trailing" constant="5" id="WwP-C4-hi1"/>
+                <constraint firstItem="PGv-vV-gtp" firstAttribute="centerY" secondItem="eGZ-4Q-fj7" secondAttribute="centerY" id="giX-lU-xuT"/>
                 <constraint firstItem="eGZ-4Q-fj7" firstAttribute="leading" secondItem="AWg-C1-RAL" secondAttribute="leading" constant="10" id="vcl-Pe-gip"/>
             </constraints>
             <connections>
+                <outlet property="checkBtn" destination="PGv-vV-gtp" id="wSb-b0-bzg"/>
                 <outlet property="titleLabel" destination="eGZ-4Q-fj7" id="yh3-rT-srd"/>
             </connections>
             <point key="canvasLocation" x="1" y="49"/>

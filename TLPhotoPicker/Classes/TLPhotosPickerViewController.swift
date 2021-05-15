@@ -193,7 +193,7 @@ open class TLPhotosPickerViewController: UIViewController {
     private var didCancel: (() -> Void)? = nil
     
     private var collections = [TLAssetsCollection]()
-    private var focusedCollection: TLAssetsCollection? = nil
+    public var focusedCollection: TLAssetsCollection? = nil
     private var requestIDs = SynchronizedDictionary<IndexPath,PHImageRequestID>()
     private var playRequestID: (indexPath: IndexPath, requestID: PHImageRequestID)? = nil
     private var photoLibrary = TLPhotoLibrary()
@@ -1147,7 +1147,8 @@ extension TLPhotosPickerViewController: UICollectionViewDelegateFlowLayout {
                                                                         withReuseIdentifier: identifier,
                                                                         for: indexPath)
         if let section = self.focusedCollection?.sections?[safe: indexPath.section] {
-                    self.customDataSouces?.configure(supplement: reuseView, section: section)
+            let checkAllSelected = checkAllSelectCells(section: section)
+            self.customDataSouces?.configure(supplement: reuseView, section: section, sectionIndex: indexPath.section, pickerVC: self, isAllSelected: checkAllSelected)
         }
         return reuseView
     }
@@ -1287,13 +1288,11 @@ extension TLPhotosPickerViewController {
         }
     }
     
-    func toggleSelection(for cell: TLPhotoCollectionViewCell, at indexPath: IndexPath) {
+    open func toggleSelection(for cell: TLPhotoCollectionViewCell?, at indexPath: IndexPath, isAllSelected: Bool? = nil) {
         guard let collection = focusedCollection, var asset = collection.getTLAsset(at: indexPath), let phAsset = asset.phAsset else { return }
         
-        cell.popScaleAnim()
-        
-        if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
-        //deselect
+        func deselect(index: Array<TLPHAsset>.Index) {
+            //deselect
             logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
             selectedAssets.remove(at: index)
             #if swift(>=4.1)
@@ -1309,28 +1308,62 @@ extension TLPhotosPickerViewController {
                 return asset
             })
             #endif
-            cell.selectedAsset = false
-            cell.stopPlay()
+            cell?.selectedAsset = false
+            cell?.stopPlay()
             orderUpdateCells()
             if playRequestID?.indexPath == indexPath {
                 stopPlay()
             }
-        } else {
-        //select
+        }
+        
+        func select() {
+            //select
+            guard getSelectedAssets(asset) == nil else { return }
             logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
             guard !maxCheck(), canSelect(phAsset: phAsset) else { return }
             
             asset.selectedOrder = selectedAssets.count + 1
             selectedAssets.append(asset)
-            cell.selectedAsset = true
-            cell.orderLabel?.text = "\(asset.selectedOrder)"
-            
+            cell?.selectedAsset = true
+            cell?.orderLabel?.text = "\(asset.selectedOrder)"
             if asset.type != .photo, configure.autoPlay {
                 playVideo(asset: asset, indexPath: indexPath)
             }
         }
+        
+        cell?.popScaleAnim()
+        
+        if let _isAllSelected = isAllSelected {
+            if _isAllSelected {
+                select()
+            } else {
+                if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
+                    deselect(index: index)
+                }
+            }
+            if cell == nil {
+                collectionView.reloadItems(at: [indexPath])
+            }
+        } else {
+            let sectionIndexPath = IndexPath(row: 0, section: indexPath.section)
+            let sectionHeaderView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
+            if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
+               deselect(index: index)
+            } else {
+                select()
+            }
+            let checkAllSelected = checkAllSelectCells(section: collection.sections?[safe: indexPath.section])
 
+            customDataSouces?.toggleSelection(supplement: sectionHeaderView, isAllSelected: checkAllSelected)
+        }
     }
+    
+    private func checkAllSelectCells(section: (title: String, assets: [TLPHAsset])?) -> Bool {
+        let sectionAssetCount = section?.assets.count
+        let selectedAssetCount = selectedAssets.filter({ (section?.assets.contains($0) ?? false) }).count
+        return sectionAssetCount == selectedAssetCount
+    }
+    
 }
 
 extension Array where Element == PopupConfigure {

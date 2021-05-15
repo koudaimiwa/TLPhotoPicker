@@ -18,6 +18,7 @@ extension TLPhotosPickerViewController {
     func wrapNavigationControllerWithoutBar() -> UINavigationController {
         let navController = UINavigationController(rootViewController: self)
         navController.navigationBar.isHidden = true
+        navController.modalPresentationStyle = .overFullScreen
         return navController
     }
 }

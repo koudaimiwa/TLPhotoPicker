@@ -13,7 +13,7 @@ import Photos
 
 class CustomCellCollectionViewCell: TLPhotoCollectionViewCell {
 
-    let selectedColor = UIColor(red: 79/255, green: 0/255, blue: 247/255, alpha: 1.0)
+    private let selectedColor = UIColor(red: 79/255, green: 0/255, blue: 247/255, alpha: 1.0)
     
     override var duration: TimeInterval? {
         didSet {
