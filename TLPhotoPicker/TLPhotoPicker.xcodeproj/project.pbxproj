@@ -8,6 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		0A11FE35264A6F0400394322 /* ScrollBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11FE34264A6F0400394322 /* ScrollBar.swift */; };
+		0AFD17B426514CEE0011592E /* ViewableControllerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17A626514CEE0011592E /* ViewableControllerContainer.swift */; };
+		0AFD17B526514CEE0011592E /* ViewableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17A726514CEE0011592E /* ViewableController.swift */; };
+		0AFD17B626514CEE0011592E /* ViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17A826514CEE0011592E /* ViewerController.swift */; };
+		0AFD17B726514CEE0011592E /* VideoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17A926514CEE0011592E /* VideoProgressView.swift */; };
+		0AFD17B826514CEE0011592E /* NSIndexPath+Contiguous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17AA26514CEE0011592E /* NSIndexPath+Contiguous.swift */; };
+		0AFD17B926514CEE0011592E /* SlideshowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17AB26514CEE0011592E /* SlideshowView.swift */; };
+		0AFD17BA26514CEE0011592E /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17AC26514CEE0011592E /* DefaultHeaderView.swift */; };
+		0AFD17BB26514CEE0011592E /* UIImage+CenteredFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17AD26514CEE0011592E /* UIImage+CenteredFrame.swift */; };
+		0AFD17BC26514CEE0011592E /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17AE26514CEE0011592E /* VideoView.swift */; };
+		0AFD17BD26514CEE0011592E /* ViewerAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17AF26514CEE0011592E /* ViewerAssets.swift */; };
+		0AFD17BE26514CEE0011592E /* UIViewController+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17B026514CEE0011592E /* UIViewController+Window.swift */; };
+		0AFD17BF26514CEE0011592E /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17B126514CEE0011592E /* UIViewExtensions.swift */; };
+		0AFD17C026514CEE0011592E /* Viewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17B226514CEE0011592E /* Viewable.swift */; };
+		0AFD17C126514CEE0011592E /* PaginatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD17B326514CEE0011592E /* PaginatedScrollView.swift */; };
 		18465DA0206E8A8B0015A715 /* TLPhotoPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 18465D9E206E8A8B0015A715 /* TLPhotoPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18465DB0206E8AEB0015A715 /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18465DA6206E8AEB0015A715 /* TLPhotosPickerViewController.swift */; };
 		18465DB1206E8AEB0015A715 /* TLCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18465DA7206E8AEB0015A715 /* TLCollectionTableViewCell.xib */; };
@@ -28,6 +42,20 @@
 
 /* Begin PBXFileReference section */
 		0A11FE34264A6F0400394322 /* ScrollBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollBar.swift; path = Classes/ScrollBar.swift; sourceTree = SOURCE_ROOT; };
+		0AFD17A626514CEE0011592E /* ViewableControllerContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewableControllerContainer.swift; sourceTree = "<group>"; };
+		0AFD17A726514CEE0011592E /* ViewableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewableController.swift; sourceTree = "<group>"; };
+		0AFD17A826514CEE0011592E /* ViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerController.swift; sourceTree = "<group>"; };
+		0AFD17A926514CEE0011592E /* VideoProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoProgressView.swift; sourceTree = "<group>"; };
+		0AFD17AA26514CEE0011592E /* NSIndexPath+Contiguous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSIndexPath+Contiguous.swift"; sourceTree = "<group>"; };
+		0AFD17AB26514CEE0011592E /* SlideshowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideshowView.swift; sourceTree = "<group>"; };
+		0AFD17AC26514CEE0011592E /* DefaultHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultHeaderView.swift; sourceTree = "<group>"; };
+		0AFD17AD26514CEE0011592E /* UIImage+CenteredFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CenteredFrame.swift"; sourceTree = "<group>"; };
+		0AFD17AE26514CEE0011592E /* VideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		0AFD17AF26514CEE0011592E /* ViewerAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerAssets.swift; sourceTree = "<group>"; };
+		0AFD17B026514CEE0011592E /* UIViewController+Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Window.swift"; sourceTree = "<group>"; };
+		0AFD17B126514CEE0011592E /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		0AFD17B226514CEE0011592E /* Viewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Viewable.swift; sourceTree = "<group>"; };
+		0AFD17B326514CEE0011592E /* PaginatedScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedScrollView.swift; sourceTree = "<group>"; };
 		18465D9B206E8A8B0015A715 /* TLPhotoPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TLPhotoPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18465D9E206E8A8B0015A715 /* TLPhotoPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLPhotoPicker.h; sourceTree = "<group>"; };
 		18465D9F206E8A8B0015A715 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,6 +87,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AFD17A526514CEE0011592E /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				0AFD17A626514CEE0011592E /* ViewableControllerContainer.swift */,
+				0AFD17A726514CEE0011592E /* ViewableController.swift */,
+				0AFD17A826514CEE0011592E /* ViewerController.swift */,
+				0AFD17A926514CEE0011592E /* VideoProgressView.swift */,
+				0AFD17AA26514CEE0011592E /* NSIndexPath+Contiguous.swift */,
+				0AFD17AB26514CEE0011592E /* SlideshowView.swift */,
+				0AFD17AC26514CEE0011592E /* DefaultHeaderView.swift */,
+				0AFD17AD26514CEE0011592E /* UIImage+CenteredFrame.swift */,
+				0AFD17AE26514CEE0011592E /* VideoView.swift */,
+				0AFD17AF26514CEE0011592E /* ViewerAssets.swift */,
+				0AFD17B026514CEE0011592E /* UIViewController+Window.swift */,
+				0AFD17B126514CEE0011592E /* UIViewExtensions.swift */,
+				0AFD17B226514CEE0011592E /* Viewable.swift */,
+				0AFD17B326514CEE0011592E /* PaginatedScrollView.swift */,
+			);
+			name = Viewer;
+			path = Classes/Viewer;
+			sourceTree = SOURCE_ROOT;
+		};
 		18465D91206E8A8B0015A715 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +144,7 @@
 				0A11FE34264A6F0400394322 /* ScrollBar.swift */,
 				18465DA6206E8AEB0015A715 /* TLPhotosPickerViewController.swift */,
 				18465DAF206E8AEB0015A715 /* TLPhotosPickerViewController.xib */,
+				0AFD17A526514CEE0011592E /* Viewer */,
 				18465D9E206E8A8B0015A715 /* TLPhotoPicker.h */,
 				18465D9F206E8A8B0015A715 /* Info.plist */,
 			);
@@ -187,16 +238,30 @@
 			files = (
 				18465DB0206E8AEB0015A715 /* TLPhotosPickerViewController.swift in Sources */,
 				B8E49AB223CC5FE900626917 /* TLAssetPreviewViewController.swift in Sources */,
+				0AFD17BD26514CEE0011592E /* ViewerAssets.swift in Sources */,
 				189E996E21F8BA7F00A754E4 /* TLPhotopickerDataSourcesProtocol.swift in Sources */,
 				18465DB6206E8AEB0015A715 /* TLAlbumPopView.swift in Sources */,
 				189E996F21F8BA7F00A754E4 /* TLAssetCollection+Extension.swift in Sources */,
 				18465DB7206E8AEB0015A715 /* TLAssetsCollection.swift in Sources */,
+				0AFD17C026514CEE0011592E /* Viewable.swift in Sources */,
+				0AFD17B826514CEE0011592E /* NSIndexPath+Contiguous.swift in Sources */,
 				18A3E62D224FADAD009A9567 /* SynchronizedDictionary.swift in Sources */,
 				18465DB5206E8AEB0015A715 /* TLCollectionTableViewCell.swift in Sources */,
+				0AFD17BF26514CEE0011592E /* UIViewExtensions.swift in Sources */,
+				0AFD17B526514CEE0011592E /* ViewableController.swift in Sources */,
+				0AFD17B726514CEE0011592E /* VideoProgressView.swift in Sources */,
 				18465DB8206E8AEB0015A715 /* TLPhotoLibrary.swift in Sources */,
 				18465DB4206E8AEB0015A715 /* TLPhotoCollectionViewCell.swift in Sources */,
+				0AFD17B926514CEE0011592E /* SlideshowView.swift in Sources */,
+				0AFD17BA26514CEE0011592E /* DefaultHeaderView.swift in Sources */,
+				0AFD17BC26514CEE0011592E /* VideoView.swift in Sources */,
 				0A11FE35264A6F0400394322 /* ScrollBar.swift in Sources */,
+				0AFD17B426514CEE0011592E /* ViewableControllerContainer.swift in Sources */,
+				0AFD17B626514CEE0011592E /* ViewerController.swift in Sources */,
 				18465DB3206E8AEB0015A715 /* TLBundle.swift in Sources */,
+				0AFD17C126514CEE0011592E /* PaginatedScrollView.swift in Sources */,
+				0AFD17BB26514CEE0011592E /* UIImage+CenteredFrame.swift in Sources */,
+				0AFD17BE26514CEE0011592E /* UIViewController+Window.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,6 +87,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.groupByFetch = .day
+        configure.usedCameraButton = false
         viewController.configure = configure
         viewController.selectedAssets = self.selectedAssets
         self.present(viewController.wrapNavigationControllerWithoutBar(), animated: true, completion: nil)
