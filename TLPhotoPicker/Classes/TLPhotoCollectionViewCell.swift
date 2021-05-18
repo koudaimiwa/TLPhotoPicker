@@ -54,6 +54,7 @@ open class TLPhotoCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    open var isTouchOrderLabel: Bool = false
     open internal(set) var asset: PHAsset?
     
     @objc open var isCameraCell = false
@@ -178,5 +179,15 @@ open class TLPhotoCollectionViewCell: UICollectionViewCell {
         self.durationView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         self.selectedHeight?.constant = 10
         self.selectedAsset = false
+    }
+    
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let _label = orderLabel else {
+            return
+        }
+        let touch = touches.first as! UITouch
+        let point = touch.location(in: touch.view)
+        isTouchOrderLabel = _label.frame.origin.x < point.x && point.y < _label.frame.origin.y + _label.frame.size.height
     }
 }

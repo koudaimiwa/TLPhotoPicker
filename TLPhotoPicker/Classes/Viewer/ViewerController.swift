@@ -128,6 +128,8 @@ public class ViewerController: UIViewController {
     public var headerView: UIView?
 
     public var footerView: UIView?
+    
+    public var toggleSelectBtn: ((_ indexPath: IndexPath) -> Void)?
 
     private lazy var defaultHeaderView: DefaultHeaderView = {
         let defaultHeaderView = DefaultHeaderView()
@@ -361,6 +363,7 @@ extension ViewerController {
 
         if self.headerView == nil {
             self.headerView = defaultHeaderView
+            toggleSelectBtnInHeader(indexPath: indexPath)
         }
 
         if let headerView = self.headerView {
@@ -388,7 +391,7 @@ extension ViewerController {
                 footerView.heightAnchor.constraint(equalToConstant: ViewerController.FooterHeight)
                 ])
         }
-
+        
         let centeredImageFrame = image.centeredFrame()
         UIView.animate(withDuration: 0.25, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 0
@@ -590,6 +593,17 @@ extension ViewerController {
             }
         }
     }
+    
+    private func toggleSelectBtnInHeader(indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+        if let cell = collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let label = cell.orderLabel {
+            defaultHeaderView.orderLabel.text = cell.orderLabel?.text
+            defaultHeaderView.isSelected = cell.selectedAsset
+        } else {
+            defaultHeaderView.orderLabel.text = ""
+            defaultHeaderView.isSelected = false
+        }
+    }
 }
 
 extension ViewerController: ViewableControllerDelegate {
@@ -644,7 +658,6 @@ extension ViewerController: ViewableControllerContainerDataSource {
 
     func viewableControllerContainer(_ viewableControllerContainer: ViewableControllerContainer, controllerAtIndex index: Int) -> UIViewController {
         let indexPath = IndexPath.indexPathForIndex(self.collectionView, index: index)!
-
         return self.findOrCreateViewableController(indexPath)
     }
 }
@@ -652,6 +665,7 @@ extension ViewerController: ViewableControllerContainerDataSource {
 extension ViewerController: ViewableControllerContainerDelegate {
     func viewableControllerContainer(_ viewableControllerContainer: ViewableControllerContainer, didMoveToIndex index: Int) {
         let indexPath = IndexPath.indexPathForIndex(self.collectionView, index: index)!
+        toggleSelectBtnInHeader(indexPath: indexPath)
         self.evaluateCellVisibility(collectionView: self.collectionView, currentIndexPath: self.currentIndexPath, upcomingIndexPath: indexPath)
         self.currentIndexPath = indexPath
         self.delegate?.viewerController(self, didChangeFocusTo: indexPath)
@@ -711,7 +725,14 @@ extension ViewerController: UIPageViewControllerDataSource {
 }
 
 extension ViewerController: DefaultHeaderViewDelegate {
+    
+    
     func headerView(_ headerView: DefaultHeaderView, didPressClearButton button: UIButton) {
         dismiss(nil)
+    }
+    
+    func toggleSelectBtn(isSelected: Bool) {
+        toggleSelectBtn?(currentIndexPath) //先にセルを選択させる
+        toggleSelectBtnInHeader(indexPath: currentIndexPath)
     }
 }

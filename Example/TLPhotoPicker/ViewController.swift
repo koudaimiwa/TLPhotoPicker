@@ -9,6 +9,7 @@
 import UIKit
 import TLPhotoPicker
 import Photos
+import PhotosUI
 
 class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     
@@ -16,6 +17,16 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     @IBOutlet var label: UILabel!
     @IBOutlet var imageView: UIImageView!
     
+    @IBAction func iosPickerButtonTap(_ sender: Any) {
+        if #available(iOS 14, *) {
+            var configuration = PHPickerConfiguration()
+            configuration.filter = .images
+            configuration.selectionLimit = 0
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            present(picker, animated: true, completion: nil)
+        }
+    }
     @IBAction func pickerButtonTap() {
         let viewController = CustomPhotoPickerViewController()
         viewController.delegate = self
@@ -129,6 +140,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         
         configure.nibSet = (nibName: "CustomCellCollectionViewCell", bundle: Bundle.main)
         configure.numberOfColumn = 3
+        configure.doneTitle = "追加"
         configure.groupByFetch = .day
         configure.previewAtForceTouch = true
         configure.autoPlay = true
@@ -136,6 +148,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         viewController.configure = configure
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self
+        viewController.modalPresentationStyle = .overFullScreen
         self.present(viewController, animated: true, completion: nil)
     }
     
@@ -260,5 +273,12 @@ extension ViewController: TLPhotosPickerLogDelegate {
     
     func selectedAlbum(picker: TLPhotosPickerViewController, title: String, at: Int) {
         print("selectedAlbum")
+    }
+}
+
+extension ViewController: PHPickerViewControllerDelegate {
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
     }
 }

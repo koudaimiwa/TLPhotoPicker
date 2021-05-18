@@ -158,7 +158,6 @@ class VideoView: UIView {
             if self.shouldRegisterForStatusNotifications {
                 guard let player = self.playerLayer.player else { return }
                 guard let currentItem = player.currentItem else { return }
-
                 self.shouldRegisterForStatusNotifications = false
                 currentItem.addObserver(self, forKeyPath: VideoView.playerItemStatusKeyPath, options: [], context: nil)
 
@@ -174,8 +173,10 @@ class VideoView: UIView {
 
             if self.shouldRegisterForFailureOrEndingNotifications {
                 self.shouldRegisterForFailureOrEndingNotifications = false
-                NotificationCenter.default.addObserver(self, selector: #selector(self.videoFinishedPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(self.itemPlaybackStalled), name: .AVPlayerItemPlaybackStalled, object: nil)
+                guard let player = self.playerLayer.player else { return }
+                guard let currentItem = player.currentItem else { return }
+                NotificationCenter.default.addObserver(self, selector: #selector(self.videoFinishedPlaying), name: .AVPlayerItemDidPlayToEndTime, object: currentItem)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.itemPlaybackStalled), name: .AVPlayerItemPlaybackStalled, object: currentItem)
             }
 
             completion()

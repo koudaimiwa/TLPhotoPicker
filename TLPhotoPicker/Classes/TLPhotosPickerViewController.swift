@@ -155,6 +155,8 @@ open class TLPhotosPickerViewController: UIViewController {
     public var customDataSouces: TLPhotopickerDataSourcesProtocol? = nil
     private var scrollBar: ScrollBar!
     private var beforeDateString = ""
+    private var sections = [Section]()
+    private var viewerController: ViewerController?
     
     private let cellSpace: CGFloat = 1
     
@@ -325,6 +327,11 @@ open class TLPhotosPickerViewController: UIViewController {
         if self.photoLibrary.delegate == nil {
             checkAuthorization()
         }
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getSections()
     }
     
     private func findIndexAndReloadCells(phAsset: PHAsset) {
@@ -510,6 +517,7 @@ extension TLPhotosPickerViewController {
         self.updateTitle()
         self.reloadCollectionView()
         self.collectionView.contentOffset = collection.recentPosition
+        getSections()
     }
     
     private func cancelAllImageAssets() {
@@ -728,6 +736,15 @@ extension TLPhotosPickerViewController {
     
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         videoCheck()
+    }
+    
+    private func getSections() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let _self = self else {
+                return
+            }
+            _self.sections = Photo.constructLocalElements(collection: _self.focusedCollection!)
+        }
     }
     
     private func videoCheck() {
@@ -950,7 +967,6 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
     //Delegate
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let collection = self.focusedCollection, let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell else { return }
-        
         let isCameraRow = collection.useCameraButton && indexPath.section == 0 && indexPath.row == 0
         
         if isCameraRow {
@@ -958,7 +974,19 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
             return
         }
         
-        toggleSelection(for: cell, at: indexPath)
+        if cell.isTouchOrderLabel {
+            toggleSelection(for: cell, at: indexPath)
+        } else {
+            viewerController = ViewerController(initialIndexPath: indexPath, collectionView: collectionView)
+            viewerController!.dataSource = self
+            viewerController?.toggleSelectBtn = { [weak self] indexPath in
+                guard let _self = self else { return }
+                _self.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+                guard let cell = _self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell else { return }
+                _self.toggleSelection(for: cell, at: indexPath)
+            }
+            self.present(viewerController!, animated: true, completion: nil)
+        }
     }
     
     open func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -1364,6 +1392,13 @@ extension TLPhotosPickerViewController {
         return sectionAssetCount == selectedAssetCount
     }
     
+    private func photo(at indexPath: IndexPath) -> Photo {
+        let section = self.sections[indexPath.section]
+        let photo = section.photos[indexPath.row]
+
+        return photo
+    }
+    
 }
 
 extension Array where Element == PopupConfigure {
@@ -1392,5 +1427,26 @@ extension UIImage {
         }
         UIGraphicsEndImageContext()
         return result ?? self
+    }
+}
+
+extension TLPhotosPickerViewController: ViewerControllerDataSource {
+    public func numberOfItemsInViewerController(_ viewerController: ViewerController) -> Int {
+        return (focusedCollection?.sections?.compactMap({ (arg0) -> Int in
+            let (_, assets): (String, [TLPHAsset]) = arg0
+            return assets.count
+        }).reduce(0, { (num1, num2) -> Int in
+            return num1 + num2
+        }))!
+    }
+    
+    public func viewerController(_ viewerController: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
+        let viewable = self.photo(at: indexPath)
+        
+        if let cell = self.collectionView?.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let asset = cell.asset, let img = Photo.thumbnail(for: asset) {
+            viewable.placeholder = img
+        }
+        
+        return viewable
     }
 }

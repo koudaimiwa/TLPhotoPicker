@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,18 +17,26 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="3bJ-bG-tue">
-                                <rect key="frame" x="73" y="57.5" width="229" height="552"/>
+                                <rect key="frame" x="73" y="14.5" width="229" height="638"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpy-9h-CPz">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pSp-yX-2O1">
                                         <rect key="frame" x="0.0" y="0.0" width="229" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Show iOS Picker"/>
+                                        <connections>
+                                            <action selector="iosPickerButtonTap:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="On5-ve-TD1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpy-9h-CPz">
+                                        <rect key="frame" x="0.0" y="86" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Show Picker"/>
                                         <connections>
                                             <action selector="pickerButtonTap" destination="vXZ-lx-hvc" eventType="touchUpInside" id="0Q7-5M-ogn"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKj-AD-9tA">
-                                        <rect key="frame" x="0.0" y="86" width="229" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKj-AD-9tA">
+                                        <rect key="frame" x="0.0" y="172" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Only Video Recording"/>
                                         <connections>
@@ -36,24 +44,24 @@
                                             <action selector="pickerButtonTap" destination="vXZ-lx-hvc" eventType="touchUpInside" id="zYL-bG-qij"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-qB-bWX">
-                                        <rect key="frame" x="0.0" y="172" width="229" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-qB-bWX">
+                                        <rect key="frame" x="0.0" y="258" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Custom CameraCell (Live)"/>
                                         <connections>
                                             <action selector="pickerWithCustomCameraCell" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fXi-av-gMq"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9kt-E5-QsD">
-                                        <rect key="frame" x="0.0" y="258" width="229" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9kt-E5-QsD">
+                                        <rect key="frame" x="0.0" y="344" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Custom BlackStyle"/>
                                         <connections>
                                             <action selector="pickerWithCustomBlackStyle" destination="vXZ-lx-hvc" eventType="touchUpInside" id="gzY-jn-80S"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icR-mj-SY4">
-                                        <rect key="frame" x="0.0" y="344" width="229" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icR-mj-SY4">
+                                        <rect key="frame" x="0.0" y="430" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="with NavigationController">
                                             <color key="titleColor" red="0.1019607843" green="0.73725490199999999" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -62,8 +70,8 @@
                                             <action selector="pickerWithNavigation" destination="vXZ-lx-hvc" eventType="touchUpInside" id="f8Y-zB-W7o"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VP9-SK-f4B">
-                                        <rect key="frame" x="0.0" y="430" width="229" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VP9-SK-f4B">
+                                        <rect key="frame" x="0.0" y="516" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="with custom rules">
                                             <color key="titleColor" red="0.27450980390000002" green="0.31372549020000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -72,8 +80,8 @@
                                             <action selector="pickerWithCustomRules" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fAg-D7-tIw"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1Y-V8-qUq">
-                                        <rect key="frame" x="0.0" y="516" width="229" height="36"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1Y-V8-qUq">
+                                        <rect key="frame" x="0.0" y="602" width="229" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="with Custom Layout"/>
                                         <connections>
@@ -83,7 +91,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="u8O-io-kHd">
-                                <rect key="frame" x="137.5" y="619.5" width="100" height="112"/>
+                                <rect key="frame" x="137.5" y="662.5" width="100" height="112"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="get image message" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9CM-MS-96X">
                                         <rect key="frame" x="3" y="0.0" width="94" height="12"/>
@@ -104,6 +112,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="lA3-4a-42x"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="u8O-io-kHd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lA3-4a-42x" secondAttribute="leading" constant="10" id="8HN-Pp-bEG"/>
@@ -113,7 +122,6 @@
                             <constraint firstItem="u8O-io-kHd" firstAttribute="top" secondItem="3bJ-bG-tue" secondAttribute="bottom" constant="10" id="g2B-Ox-fJs"/>
                             <constraint firstItem="lA3-4a-42x" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="u8O-io-kHd" secondAttribute="trailing" constant="10" id="tzs-vU-PM0"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="lA3-4a-42x"/>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="cmZ-5x-q5A" id="ow7-S0-GhT"/>
