@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -49,6 +50,7 @@
                         <navigationItem id="5CU-MZ-p1K">
                             <nil key="title"/>
                             <barButtonItem key="leftBarButtonItem" title="Cancel" id="sqJ-Z7-zxj">
+                                <color key="tintColor" systemColor="labelColor"/>
                                 <connections>
                                     <action selector="cancelButtonTap" destination="-1" id="dm0-Ur-I5r"/>
                                 </connections>
@@ -96,6 +98,7 @@
                                 </constraints>
                             </view>
                             <barButtonItem key="rightBarButtonItem" title="Done" id="daA-Ag-vVv">
+                                <color key="tintColor" systemColor="labelColor"/>
                                 <connections>
                                     <action selector="doneButtonTap" destination="-1" id="BzF-rn-rn4"/>
                                 </connections>
@@ -228,5 +231,8 @@
         <image name="arrow.png" width="18" height="18"/>
         <image name="photo" catalog="system" width="128" height="93"/>
         <image name="pop_arrow.png" width="41" height="20"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
