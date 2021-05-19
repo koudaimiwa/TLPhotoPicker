@@ -10,6 +10,10 @@ import Foundation
 import TLPhotoPicker
 
 class CustomPhotoPickerViewController: TLPhotosPickerViewController {
+    
+    deinit {
+        print("\(String(describing: type(of: self))) is being deinitialized")
+    }
     override func makeUI() {
         super.makeUI()
         self.customNavItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .stop, target: nil, action: #selector(customAction))

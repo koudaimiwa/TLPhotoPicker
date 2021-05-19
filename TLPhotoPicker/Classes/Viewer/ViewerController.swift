@@ -158,6 +158,10 @@ public class ViewerController: UIViewController {
     }()
 
     // MARK: View Lifecycle
+    
+    deinit {
+        print("\(String(describing: type(of: self))) is being deinitialized")
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()

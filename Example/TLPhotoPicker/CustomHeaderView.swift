@@ -11,7 +11,7 @@ import UIKit
 import TLPhotoPicker
 
 class CustomHeaderView: UICollectionReusableView {
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var checkBtn: UIButton!
     
     private let selectedColor = UIColor(red: 79/255, green: 0/255, blue: 247/255, alpha: 1.0).cgColor

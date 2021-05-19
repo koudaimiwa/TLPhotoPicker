@@ -26,7 +26,10 @@ class TLPhotoLibrary {
     internal var albums: PHFetchResult<PHCollection>? = nil
     
     deinit {
-        //        print("deinit TLPhotoLibrary")
+        assetCollections = []
+        albums = nil
+        imageManager.stopCachingImagesForAllAssets()
+        print("\(String(describing: type(of: self))) is being deinitialized")
     }
     
     @discardableResult

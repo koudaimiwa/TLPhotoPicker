@@ -34,7 +34,9 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
             self?.showExceededMaximumAlert(vc: picker)
         }
         var configure = TLPhotosPickerConfigure()
+//        configure.usedPrefetch = true
         configure.numberOfColumn = 3
+        configure.groupByFetch = .day
         viewController.configure = configure
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self
@@ -137,7 +139,6 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         var configure = TLPhotosPickerConfigure()
         configure.customLocalizedTitle = ["Recents":"すべて","Panoramas":"パノラマ", "Time-lapse":"タイムラプス" ,"Bursts":"バースト","Slo-mo":"スローモーション","Screenshots":"スクリーンショット","Selfies":"セルフィー","Favorites":"お気に入り","Videos":"ビデオ", "Live Photos": "Live Photos"]
         configure.tapHereToChange = "タップして変更"
-        
         configure.nibSet = (nibName: "CustomCellCollectionViewCell", bundle: Bundle.main)
         configure.numberOfColumn = 3
         configure.doneTitle = "追加"

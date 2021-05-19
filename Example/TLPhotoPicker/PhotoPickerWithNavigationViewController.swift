@@ -25,6 +25,10 @@ class PhotoPickerWithNavigationViewController: TLPhotosPickerViewController {
         }
     }
     
+    deinit {
+        print("\(String(describing: type(of: self))) is being deinitialized")
+    }
+    
     override func doneButtonTap() {
 //        let imagePreviewVC = ImagePreviewViewController()
 //        imagePreviewVC.assets = self.selectedAssets.first

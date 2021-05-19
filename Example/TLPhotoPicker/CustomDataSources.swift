@@ -39,7 +39,7 @@ struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
                                 withReuseIdentifier: "CustomFooterView")
     }
     
-    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), sectionIndex: Int, pickerVC: TLPhotosPickerViewController, isAllSelected: Bool) {
+    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), isAllSelected: Bool, toggleSelection: ((_ selected: Bool) -> Void)?) {
         if let reuseView = view as? CustomHeaderView {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy年 M月dd日"
@@ -49,13 +49,7 @@ struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
                 reuseView.titleLabel.text = dateFormat.string(from: date)
             }
             reuseView.toggleCheckBtn(isAllSelected: isAllSelected)
-            reuseView.toggleAllBtn = { isSelected in
-                for index in 0...section.assets.count {
-                    let indexPath = IndexPath(row: index, section: sectionIndex)
-                    let cell = pickerVC.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell
-                    pickerVC.toggleSelection(for: cell, at: indexPath, isAllSelected: isSelected)
-                }
-            }
+            reuseView.toggleAllBtn = toggleSelection
         } else if let reuseView = view as? CustomFooterView {
             reuseView.titleLabel.text = "Footer"
         }
