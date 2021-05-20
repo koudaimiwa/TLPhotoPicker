@@ -744,7 +744,7 @@ extension TLPhotosPickerViewController {
     }
     
     private func getSections() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let _self = self else {
                 return
             }
@@ -1035,7 +1035,13 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
         
         if let selectedAsset = getSelectedAssets(asset) {
             cell.selectedAsset = true
-            cell.orderLabel?.text = "\(selectedAsset.selectedOrder)"
+            if configure.singleSelectedMode {
+                cell.orderLabel?.text = ""
+                cell.orderLabel?.insertImage(TLBundle.podBundleImage(named: "check")!.colorMask(color: .white), at: 0, size: CGSize(width: 16, height: 16), alignment: .center)
+                
+            } else {
+                cell.orderLabel?.text = "\(selectedAsset.selectedOrder)"
+            }
         }else{
             cell.selectedAsset = false
         }
@@ -1183,7 +1189,7 @@ extension TLPhotosPickerViewController: UICollectionViewDelegateFlowLayout {
                                                                         for: indexPath)
         if let section = self.focusedCollection?.sections?[safe: indexPath.section] {
             let checkAllSelected = checkAllSelectCells(section: section)
-            self.customDataSouces?.configure(supplement: reuseView, section: section, isAllSelected: checkAllSelected, toggleSelection: { [weak self] isSelected in
+            self.customDataSouces?.configure(supplement: reuseView, section: section, isHideAllSelection: configure.singleSelectedMode, isAllSelected: checkAllSelected, toggleSelection: { [weak self] isSelected in
                 guard let _self = self else { return }
                 for index in 0...section.assets.count {
                     let indexPath = IndexPath(row: index, section: indexPath.section)
@@ -1367,9 +1373,15 @@ extension TLPhotosPickerViewController {
             asset.selectedOrder = selectedAssets.count + 1
             selectedAssets.append(asset)
             cell?.selectedAsset = true
-            cell?.orderLabel?.text = "\(asset.selectedOrder)"
             if asset.type != .photo, configure.autoPlay {
                 playVideo(asset: asset, indexPath: indexPath)
+            }
+            if configure.singleSelectedMode {
+                cell?.orderLabel?.text = ""
+                cell?.orderLabel?.insertImage(TLBundle.podBundleImage(named: "check")!.colorMask(color: .white), at: 0, size: CGSize(width: 16, height: 16), alignment: .center)
+                
+            } else {
+                cell?.orderLabel?.text = "\(asset.selectedOrder)"
             }
         }
         

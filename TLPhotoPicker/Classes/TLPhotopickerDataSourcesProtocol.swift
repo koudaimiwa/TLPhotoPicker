@@ -13,6 +13,6 @@ public protocol TLPhotopickerDataSourcesProtocol {
     func footerReferenceSize() -> CGSize
     func registerSupplementView(collectionView: UICollectionView)
     func supplementIdentifier(kind: String) -> String
-    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), isAllSelected: Bool, toggleSelection: ((_ selected: Bool) -> Void)?)
+    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), isHideAllSelection: Bool, isAllSelected: Bool, toggleSelection: ((_ selected: Bool) -> Void)?)
     func toggleSelection(supplement view: UICollectionReusableView?, isAllSelected: Bool)
 }

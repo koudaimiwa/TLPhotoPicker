@@ -601,8 +601,11 @@ extension ViewerController {
     private func toggleSelectBtnInHeader(indexPath: IndexPath) {
         collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         if let cell = collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let label = cell.orderLabel {
-            defaultHeaderView.orderLabel.text = cell.orderLabel?.text
+            defaultHeaderView.orderLabel.text = cell.configure.singleSelectedMode ? "" : cell.orderLabel?.text
             defaultHeaderView.isSelected = cell.selectedAsset
+            if cell.configure.singleSelectedMode && cell.selectedAsset {
+                defaultHeaderView.orderLabel.insertImage(TLBundle.podBundleImage(named: "check")!.colorMask(color: .white), at: 0, size: CGSize(width: 16, height: 16), alignment: .center)
+            }
         } else {
             defaultHeaderView.orderLabel.text = ""
             defaultHeaderView.isSelected = false

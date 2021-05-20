@@ -39,7 +39,7 @@ struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
                                 withReuseIdentifier: "CustomFooterView")
     }
     
-    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), isAllSelected: Bool, toggleSelection: ((_ selected: Bool) -> Void)?) {
+    func configure(supplement view: UICollectionReusableView, section: (title: String, assets: [TLPHAsset]), isHideAllSelection: Bool, isAllSelected: Bool, toggleSelection: ((_ selected: Bool) -> Void)?) {
         if let reuseView = view as? CustomHeaderView {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy年 M月dd日"
@@ -48,6 +48,7 @@ struct CustomDataSources: TLPhotopickerDataSourcesProtocol {
             if let date = section.assets.first?.phAsset?.creationDate {
                 reuseView.titleLabel.text = dateFormat.string(from: date)
             }
+            reuseView.checkBtn.isHidden = isHideAllSelection
             reuseView.toggleCheckBtn(isAllSelected: isAllSelected)
             reuseView.toggleAllBtn = toggleSelection
         } else if let reuseView = view as? CustomFooterView {

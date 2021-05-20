@@ -73,7 +73,7 @@ class TLPhotoLibrary {
         }
         let scale = min(UIScreen.main.scale,2)
         let targetSize = CGSize(width: size.width*scale, height: size.height*scale)
-        let requestID = self.imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { image, info in
+        let requestID = self.imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { [weak self] image, info in
             let complete = (info?["PHImageResultIsDegradedKey"] as? Bool) == false
             if let image = image {
                 completionBlock(image,complete)
