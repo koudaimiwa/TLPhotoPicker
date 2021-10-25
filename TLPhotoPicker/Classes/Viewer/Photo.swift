@@ -27,11 +27,11 @@ public class Photo: Viewable {
     
     public var placeholder: UIImage = UIImage()
     
-    init(id: String) {
+    public init(id: String) {
         self.id = id
     }
     
-    init(assetID: String) {
+    public init(assetID: String) {
         self.assetID = assetID
     }
     
