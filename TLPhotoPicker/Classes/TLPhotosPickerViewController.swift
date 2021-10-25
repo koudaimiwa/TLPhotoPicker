@@ -745,9 +745,7 @@ extension TLPhotosPickerViewController {
     
     private func getSections() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let _self = self else {
-                return
-            }
+            guard let _self = self else { return }
             _self.sections = Photo.constructLocalElements(collection: _self.focusedCollection!)
         }
     }
@@ -1421,10 +1419,8 @@ extension TLPhotosPickerViewController {
     private func photo(at indexPath: IndexPath) -> Photo {
         let section = self.sections[indexPath.section]
         let photo = section.photos[indexPath.row]
-
         return photo
     }
-    
 }
 
 extension Array where Element == PopupConfigure {
@@ -1468,11 +1464,21 @@ extension TLPhotosPickerViewController: ViewerControllerDataSource {
     
     public func viewerController(_ viewerController: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
         let viewable = self.photo(at: indexPath)
-        
-        if let cell = self.collectionView?.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let asset = cell.asset, let img = Photo.thumbnail(for: asset) {
-            viewable.placeholder = img
+        if let cell = self.collectionView?.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let asset = cell.asset, let placeholder = Photo.thumbnail(for: asset) {
+            viewable.placeholder = placeholder
+            if asset.mediaType == .video {
+                viewable.type = .video
+            } else {
+                if asset.mediaSubtypes == .photoLive {
+                    viewable.type = .livePhoto
+                } else {
+                    viewable.type = .image
+                }
+            }
+            return viewable
+        } else {
+            return Photo(id: "")
         }
         
-        return viewable
     }
 }

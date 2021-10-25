@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A47A24E2726DBB1004B075D /* LivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A47A24D2726DBAF004B075D /* LivePhoto.swift */; };
 		0AF170E32655FD6B005C5E5B /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF170DA2655FD55005C5E5B /* UILabel.swift */; };
 		0AFD183B26517C300011592E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD183A26517C300011592E /* Photo.swift */; };
 		0ED0A3F730905458A91F1007589E77A5 /* TLPhotoPicker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CCAD5CC383D706C74FF473D3BC86F5 /* TLPhotoPicker-dummy.m */; };
@@ -67,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		01DFA57283C560326E7636A1B706CDF5 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SynchronizedDictionary.swift; path = TLPhotoPicker/Classes/SynchronizedDictionary.swift; sourceTree = "<group>"; };
+		0A47A24D2726DBAF004B075D /* LivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhoto.swift; sourceTree = "<group>"; };
 		0A952AE660524CD61521511E439A39B9 /* TLPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = TLPhotoCollectionViewCell.xib; path = TLPhotoPicker/Classes/TLPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		0AF170DA2655FD55005C5E5B /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UILabel.swift; path = TLPhotoPicker/Classes/UILabel.swift; sourceTree = "<group>"; };
 		0AFD183A26517C300011592E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 		BE9408658201E1B2ABA1A22BA5FE6906 /* TLPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
+				0A47A24D2726DBAF004B075D /* LivePhoto.swift */,
 				F03EEB1157109E58C0CBBC784CF16546 /* ScrollBar.swift */,
 				01DFA57283C560326E7636A1B706CDF5 /* SynchronizedDictionary.swift */,
 				0EC7E831A102E262C4E9076EF8DCDCB5 /* TLAlbumPopView.swift */,
@@ -460,6 +463,7 @@
 				A4CA6315F4EBEA264ABD075B2E2E89D9 /* SlideshowView.swift in Sources */,
 				48715BAF0F4A0DE64C9A69D7932363BD /* SynchronizedDictionary.swift in Sources */,
 				D10C2DB87A8B9D0ABD07C1E33FF56594 /* TLAlbumPopView.swift in Sources */,
+				0A47A24E2726DBB1004B075D /* LivePhoto.swift in Sources */,
 				C7FC88C4518B5F3C3528BFDBDCA7D3AB /* TLAssetCollection+Extension.swift in Sources */,
 				8F3707EB0779397C1D95C597FA2B94DA /* TLAssetPreviewViewController.swift in Sources */,
 				90CDDAAC396B98526443DD604F8A72DE /* TLAssetsCollection.swift in Sources */,

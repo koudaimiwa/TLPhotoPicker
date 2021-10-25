@@ -326,8 +326,10 @@ extension ViewerController {
 
             let gesture = UIPanGestureRecognizer(target: self, action: #selector(ViewerController.panAction(_:)))
             gesture.delegate = self
+            let gesture2 = UIPanGestureRecognizer(target: self, action: #selector(ViewerController.panAction(_:)))
+            gesture2.delegate = self
             viewableController.imageView.addGestureRecognizer(gesture)
-
+            viewableController.livePhotoView.addGestureRecognizer(gesture2)
             self.viewableControllerCache.setObject(viewableController, forKey: indexPath.description as NSString)
         }
 
@@ -510,8 +512,8 @@ extension ViewerController {
 
     @objc func panAction(_ gesture: UIPanGestureRecognizer) {
         let controller = self.findOrCreateViewableController(self.currentIndexPath)
+        controller.livePhotoView.isHidden = true
         guard !controller.hasZoomed else { return }
-
         let viewHeight = controller.imageView.frame.size.height
         let viewHalfHeight = viewHeight / 2
         var translatedPoint = gesture.translation(in: controller.imageView)

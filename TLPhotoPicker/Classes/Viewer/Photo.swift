@@ -27,6 +27,10 @@ public class Photo: Viewable {
     
     public var placeholder: UIImage = UIImage()
     
+    init(id: String) {
+        self.id = id
+    }
+    
     init(assetID: String) {
         self.assetID = assetID
     }
@@ -41,7 +45,41 @@ public class Photo: Viewable {
         } else {
             completion(self.placeholder, nil)
         }
+    }
+    
+    public func livePhotoMedia(_ completion: @escaping (PHLivePhoto?, NSError?) -> Void) {
+        if let _assetID = self.assetID {
+            if let asset = PHAsset.fetchAssets(withLocalIdentifiers: [_assetID], options: nil).firstObject {
+                Photo.livePhoto(for: asset) { livePhoto in
+                    completion(livePhoto, nil)
+                }
+            }
+        }
+    }
+    
+    static func constructRemoteElements(urls: [URL], livePhotoIndices: [Int]) -> [Section] {
+        var sections = [Section]()
         
+        urls.enumerated().forEach { (index, url) in
+            var photos = [Photo]()
+            let id = UUID().uuidString
+            let photo = Photo(id: id)
+            if ["MOV", "mov", "MP4", "mp4", "m4v", "M4V"].contains(url.lastPathComponent) {
+                photo.url = url.absoluteString
+                if livePhotoIndices.contains(index) {
+                    photo.type = .livePhoto
+                } else {
+                    photo.type = .video
+                }
+            } else {
+                photo.type = .image
+            }
+            photos.append(photo)
+            let section = Section(groupedDate: "")
+            section.photos = photos
+            sections.append(section)
+        }
+        return sections
     }
     
     static public func constructLocalElements(collection: TLAssetsCollection) -> [Section] {
@@ -53,7 +91,7 @@ public class Photo: Viewable {
                 switch asset.type {
                     case .photo: photo.type = .image
                     case .video: photo.type = .video
-                    case .livePhoto: photo.type = .video
+                    case .livePhoto: photo.type = .livePhoto
                 }
                 section.photos.append(photo)
             }
@@ -102,6 +140,23 @@ public class Photo: Viewable {
             // guard let image = image else { fatalError("Couldn't get photo data for asset \(asset)") }
             DispatchQueue.main.async {
                 completion(image)
+            }
+        }
+    }
+    
+    static func livePhoto(for asset: PHAsset, completion: @escaping (_ image: PHLivePhoto?) -> Void) {
+        let imageManager = PHImageManager.default()
+        let option = PHLivePhotoRequestOptions()
+        option.deliveryMode = .opportunistic
+        option.isNetworkAccessAllowed = true
+        
+        let bounds = UIScreen.main.bounds.size
+        let targetSize = CGSize(width: bounds.width * 2, height: bounds.height * 2)
+        imageManager.requestLivePhoto(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: option) { (livePhoto, info) in
+            if let _livePhoto = livePhoto, info?[PHImageErrorKey] == nil {
+                DispatchQueue.main.async {
+                    completion(_livePhoto)
+                }
             }
         }
     }

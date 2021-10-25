@@ -4,6 +4,8 @@ import AVKit
 
 #if os(iOS)
     import Photos
+    import PhotosUI
+    import MobileCoreServices
 #endif
 
 protocol ViewableControllerDelegate: class {
@@ -50,6 +52,27 @@ class ViewableController: UIViewController {
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.isUserInteractionEnabled = true
 
+        return view
+    }()
+    
+    lazy var livePhotoView: PHLivePhotoView = {
+        let liveView = PHLivePhotoView(frame: UIScreen.main.bounds)
+        liveView.backgroundColor = .clear
+        liveView.contentMode = .scaleAspectFit
+        liveView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        liveView.isHidden = true
+        liveView.isUserInteractionEnabled = false
+        return liveView
+    }()
+    
+    lazy var livePhotoBadgeImageView: UIImageView = {
+        let view = UIImageView(frame: CGRect(x: 3, y: 83, width: 35, height: 35))
+        view.backgroundColor = .clear
+        view.contentMode = .scaleAspectFit
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.isUserInteractionEnabled = true
+        view.image = PHLivePhotoView.livePhotoBadgeImage(options: .overContent)
+        view.isHidden = true
         return view
     }()
 
@@ -151,6 +174,7 @@ class ViewableController: UIViewController {
             self.videoView.image = viewable.placeholder
             self.imageView.image = viewable.placeholder
             self.videoView.frame = viewable.placeholder.centeredFrame()
+            self.livePhotoView.frame = viewable.placeholder.centeredFrame()
             self.changed = false
         }
     }
@@ -175,13 +199,14 @@ class ViewableController: UIViewController {
 
         self.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.backgroundColor = self.viewableBackgroundColor
-
         self.zoomingScrollView.addSubview(self.imageView)
         self.view.addSubview(self.zoomingScrollView)
+        self.view.addSubview(self.livePhotoView)
+        self.view.addSubview(self.livePhotoBadgeImageView)
         self.view.addSubview(imageLoadingIndicator)
-
+        
         self.view.addSubview(self.videoView)
-
+        
         self.view.addSubview(self.playButton)
         self.view.addSubview(self.repeatButton)
         self.view.addSubview(self.pauseButton)
@@ -288,7 +313,9 @@ class ViewableController: UIViewController {
 
     func display() {
         guard let viewable = self.viewable else { return }
-
+        livePhotoView.isHidden = true
+        livePhotoView.isUserInteractionEnabled = false
+        livePhotoBadgeImageView.isHidden = true
         switch viewable.type {
         case .image:
             // Needed to avoid showing the loading indicator for a fraction of a second. Thanks to this the
@@ -354,6 +381,18 @@ class ViewableController: UIViewController {
                     }
                 }
             #endif
+        case .livePhoto:
+            livePhotoView.isHidden = false
+            livePhotoBadgeImageView.isHidden = false
+            livePhotoView.isUserInteractionEnabled = true
+            viewable.livePhotoMedia { (livePhoto, error) in
+                DispatchQueue.main.async { [weak self] in
+                    guard let _self = self else { return }
+                    if let _livePhoto = livePhoto {
+                        _self.livePhotoView.livePhoto = _livePhoto
+                    }
+                }
+            }
         }
     }
 
