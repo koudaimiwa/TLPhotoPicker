@@ -22,10 +22,12 @@ public class ViewerController: UIViewController {
 
     fileprivate var isSlideshow: Bool
 
-    public init(initialIndexPath: IndexPath, collectionView: UICollectionView, isSlideshow: Bool = false) {
+    public init(initialIndexPath: IndexPath, collectionView: UICollectionView, isSlideshow: Bool = false, isExceptedFirstItem: Bool = false, isExceptedLastItem: Bool = false) {
         self.initialIndexPath = initialIndexPath
         self.currentIndexPath = initialIndexPath
         self.collectionView = collectionView
+        self.isExceptedFirstItem = isExceptedFirstItem
+        self.isExceptedLastItem = isExceptedLastItem
 
         self.proposedCurrentIndexPath = initialIndexPath
         self.isSlideshow = isSlideshow
@@ -130,7 +132,11 @@ public class ViewerController: UIViewController {
     public var footerView: UIView?
     
     public var toggleSelectBtn: ((_ indexPath: IndexPath) -> Void)?
-
+    
+    public var isExceptedFirstItem: Bool = false
+    
+    public var isExceptedLastItem: Bool = false
+    
     private lazy var defaultHeaderView: DefaultHeaderView = {
         let defaultHeaderView = DefaultHeaderView()
         defaultHeaderView.delegate = self
@@ -144,7 +150,6 @@ public class ViewerController: UIViewController {
         view.viewDataSource = self
         view.viewDelegate = self
         view.backgroundColor = .clear
-
         return view
     }()
 
@@ -168,6 +173,8 @@ public class ViewerController: UIViewController {
 
         #if os(iOS)
             self.view.addSubview(self.scrollView)
+            self.scrollView.isExceptedFirstItem = self.isExceptedFirstItem
+            self.scrollView.isExceptedLastItem = self.isExceptedLastItem
         #else
             let menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.menu(gesture:)))
             menuTapRecognizer.allowedPressTypes = [NSNumber(value: UIPress.PressType.menu.rawValue)]

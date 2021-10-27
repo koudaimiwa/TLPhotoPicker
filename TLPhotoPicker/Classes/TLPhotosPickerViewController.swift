@@ -744,7 +744,7 @@ extension TLPhotosPickerViewController {
     }
     
     private func getSections() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             guard let _self = self else { return }
             _self.sections = Photo.constructLocalElements(collection: _self.focusedCollection!)
         }

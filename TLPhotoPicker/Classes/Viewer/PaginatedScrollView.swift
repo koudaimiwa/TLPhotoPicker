@@ -6,6 +6,9 @@ class PaginatedScrollView: UIScrollView, ViewableControllerContainer {
     fileprivate unowned var parentController: UIViewController
     fileprivate var currentPage: Int
     fileprivate var shoudEvaluate = false
+    
+    public var isExceptedFirstItem: Bool = false
+    public var isExceptedLastItem: Bool = false
 
     init(frame: CGRect, parentController: UIViewController, initialPage: Int) {
         self.parentController = parentController
@@ -102,6 +105,18 @@ extension PaginatedScrollView: UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(_: UIScrollView) {
+        if isExceptedFirstItem {
+            if contentOffset.x <= frame.width {
+                contentOffset.x = frame.width
+            }
+        }
+        
+        if isExceptedLastItem {
+            if contentSize.width - frame.width <= contentOffset.x {
+                contentOffset.x = contentSize.width - frame.width
+            }
+        }
+       
         if self.shoudEvaluate {
             let pageWidth = self.frame.size.width
             let page = Int(floor((self.contentOffset.x - pageWidth / 2) / pageWidth) + 1)
