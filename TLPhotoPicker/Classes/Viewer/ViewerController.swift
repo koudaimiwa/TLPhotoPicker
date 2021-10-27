@@ -22,13 +22,13 @@ public class ViewerController: UIViewController {
 
     fileprivate var isSlideshow: Bool
 
-    public init(initialIndexPath: IndexPath, collectionView: UICollectionView, isSlideshow: Bool = false, isExceptedFirstItem: Bool = false, isExceptedLastItem: Bool = false) {
+    public init(initialIndexPath: IndexPath, collectionView: UICollectionView, isSlideshow: Bool = false, isExceptedFirstItem: Bool = false, isExceptedLastItem: Bool = false, isHideSelectButton: Bool = false) {
         self.initialIndexPath = initialIndexPath
         self.currentIndexPath = initialIndexPath
         self.collectionView = collectionView
         self.isExceptedFirstItem = isExceptedFirstItem
         self.isExceptedLastItem = isExceptedLastItem
-
+        self.isHideSelectButton = isHideSelectButton
         self.proposedCurrentIndexPath = initialIndexPath
         self.isSlideshow = isSlideshow
 
@@ -133,15 +133,18 @@ public class ViewerController: UIViewController {
     
     public var toggleSelectBtn: ((_ indexPath: IndexPath) -> Void)?
     
-    public var isExceptedFirstItem: Bool = false
+    fileprivate var isExceptedFirstItem: Bool = false
     
-    public var isExceptedLastItem: Bool = false
+    fileprivate var isExceptedLastItem: Bool = false
     
-    private lazy var defaultHeaderView: DefaultHeaderView = {
+    fileprivate var isHideSelectButton: Bool = false
+    
+    lazy var defaultHeaderView: DefaultHeaderView = {
         let defaultHeaderView = DefaultHeaderView()
         defaultHeaderView.delegate = self
         defaultHeaderView.translatesAutoresizingMaskIntoConstraints = false
         defaultHeaderView.alpha = 0
+        defaultHeaderView.orderLabel.isHidden = isHideSelectButton
         return defaultHeaderView
     }()
 
