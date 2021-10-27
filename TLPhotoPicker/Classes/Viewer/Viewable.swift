@@ -12,6 +12,7 @@ public protocol Viewable {
     var assetID: String? { get }
     var url: String? { get }
     var placeholder: UIImage { get }
+    var avplayerItem: AVPlayerItem? { get }
 
     func media(_ completion: @escaping (_ image: UIImage?, _ error: NSError?) -> Void)
     func livePhotoMedia(_ completion: @escaping (_ image: PHLivePhoto?, _ error: NSError?) -> Void)

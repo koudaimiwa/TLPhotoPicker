@@ -1468,6 +1468,10 @@ extension TLPhotosPickerViewController: ViewerControllerDataSource {
             viewable.placeholder = placeholder
             if asset.mediaType == .video {
                 viewable.type = .video
+                if let player = cell.player, let item = player.currentItem {
+                    viewable.avplayerItem = AVPlayerItem(asset: item.asset)
+                }
+                viewable.assetID = nil
             } else {
                 if asset.mediaSubtypes == .photoLive {
                     viewable.type = .livePhoto

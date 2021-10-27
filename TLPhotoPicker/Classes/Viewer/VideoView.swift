@@ -284,7 +284,6 @@ class VideoView: UIView {
 }
 
 extension VideoView {
-
     fileprivate func addPlayer(using viewable: Viewable, completion: @escaping () -> Void) {
         if let assetID = viewable.assetID {
             #if os(iOS)
@@ -322,10 +321,15 @@ extension VideoView {
                 let streamingURL = URL(string: url)!
                 self.playerLayer.player = AVPlayer(url: streamingURL)
                 self.playerLayer.isHidden = true
-
                 DispatchQueue.main.async {
                     completion()
                 }
+            }
+        } else if let item = viewable.avplayerItem {
+            self.playerLayer.player = AVPlayer(playerItem: item)
+            self.playerLayer.isHidden = true
+            DispatchQueue.main.async {
+                completion()
             }
         }
     }

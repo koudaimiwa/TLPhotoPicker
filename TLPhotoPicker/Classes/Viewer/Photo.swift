@@ -27,6 +27,8 @@ public class Photo: Viewable {
     
     public var placeholder: UIImage = UIImage()
     
+    public var avplayerItem: AVPlayerItem?
+    
     public init(id: String) {
         self.id = id
     }
@@ -53,6 +55,11 @@ public class Photo: Viewable {
                 Photo.livePhoto(for: asset) { livePhoto in
                     completion(livePhoto, nil)
                 }
+            }
+        } else if let _videoUrl = url {
+            LivePhoto.generate(from: nil, videoURL: URL(string: _videoUrl)!) { (progress) in
+            } completion: { (livePhoto, resource) in
+                completion(livePhoto, nil)
             }
         }
     }
