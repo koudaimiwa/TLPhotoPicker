@@ -154,29 +154,29 @@ class VideoView: UIView {
     }
 
     func prepare(using viewable: Viewable, completion: @escaping () -> Void) {
-        self.addPlayer(using: viewable) {
-            if self.shouldRegisterForStatusNotifications {
-                guard let player = self.playerLayer.player else { return }
+        self.addPlayer(using: viewable) { [weak self] in
+            guard let _self = self else { return }
+            if _self.shouldRegisterForStatusNotifications {
+                guard let player = _self.playerLayer.player else { return }
                 guard let currentItem = player.currentItem else { return }
-                self.shouldRegisterForStatusNotifications = false
-                currentItem.addObserver(self, forKeyPath: VideoView.playerItemStatusKeyPath, options: [], context: nil)
-
+                _self.shouldRegisterForStatusNotifications = false
+                currentItem.addObserver(_self, forKeyPath: VideoView.playerItemStatusKeyPath, options: [], context: nil)
                 do {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setActive(true)
-                    audioSession.addObserver(self, forKeyPath: VideoView.audioSessionVolumeKeyPath, options: .new, context: nil)
-                    self.shouldRegisterForOutputVolume = false
+                    audioSession.addObserver(_self, forKeyPath: VideoView.audioSessionVolumeKeyPath, options: .new, context: nil)
+                    _self.shouldRegisterForOutputVolume = false
                 } catch {
                     print("Failed to activate audio session")
                 }
             }
 
-            if self.shouldRegisterForFailureOrEndingNotifications {
-                self.shouldRegisterForFailureOrEndingNotifications = false
-                guard let player = self.playerLayer.player else { return }
+            if _self.shouldRegisterForFailureOrEndingNotifications {
+                _self.shouldRegisterForFailureOrEndingNotifications = false
+                guard let player = _self.playerLayer.player else { return }
                 guard let currentItem = player.currentItem else { return }
-                NotificationCenter.default.addObserver(self, selector: #selector(self.videoFinishedPlaying), name: .AVPlayerItemDidPlayToEndTime, object: currentItem)
-                NotificationCenter.default.addObserver(self, selector: #selector(self.itemPlaybackStalled), name: .AVPlayerItemPlaybackStalled, object: currentItem)
+                NotificationCenter.default.addObserver(_self, selector: #selector(_self.videoFinishedPlaying), name: .AVPlayerItemDidPlayToEndTime, object: currentItem)
+                NotificationCenter.default.addObserver(_self, selector: #selector(_self.itemPlaybackStalled), name: .AVPlayerItemPlaybackStalled, object: currentItem)
             }
 
             completion()
@@ -196,7 +196,7 @@ class VideoView: UIView {
         self.playerLayer.player?.pause()
         self.playerLayer.player?.seek(to: CMTime.zero)
         self.playerLayer.player = nil
-
+        
         if #available(iOS 10.0, *) {
             #if os(iOS)
             try? AVAudioSession.sharedInstance().setCategory(.soloAmbient, mode: .default, options: [])
@@ -317,19 +317,26 @@ extension VideoView {
                 }
             #endif
         } else if let url = viewable.url {
-            DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                guard let _self = self else { return }
                 let streamingURL = URL(string: url)!
-                self.playerLayer.player = AVPlayer(url: streamingURL)
-                self.playerLayer.isHidden = true
+                _self.playerLayer.player = AVPlayer(url: streamingURL)
+                _self.playerLayer.isHidden = true
                 DispatchQueue.main.async {
                     completion()
                 }
             }
-        } else if let item = viewable.avplayerItem {
-            self.playerLayer.player = AVPlayer(playerItem: item)
-            self.playerLayer.isHidden = true
-            DispatchQueue.main.async {
-                completion()
+        } else if let player = viewable.avplayer {
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                guard let _self = self else { return }
+                player.pause()
+                player.seek(to: .zero)
+                player.isMuted = false
+                _self.playerLayer.player = player
+                _self.playerLayer.isHidden = true
+                DispatchQueue.main.async {
+                    completion()
+                }
             }
         }
     }
@@ -338,7 +345,7 @@ extension VideoView {
         if self.shouldRegisterForStatusNotifications == false {
             guard let player = self.playerLayer.player else { return }
             guard let currentItem = player.currentItem else { return }
-
+            
             self.shouldRegisterForStatusNotifications = true
             currentItem.removeObserver(self, forKeyPath: VideoView.playerItemStatusKeyPath)
         }

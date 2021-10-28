@@ -27,7 +27,7 @@ public class Photo: Viewable {
     
     public var placeholder: UIImage = UIImage()
     
-    public var avplayerItem: AVPlayerItem?
+    public var avplayer: AVPlayer?
     
     public init(id: String) {
         self.id = id

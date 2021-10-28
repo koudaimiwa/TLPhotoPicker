@@ -744,7 +744,7 @@ extension TLPhotosPickerViewController {
     }
     
     private func getSections() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
             guard let _self = self else { return }
             _self.sections = Photo.constructLocalElements(collection: _self.focusedCollection!)
         }
@@ -1468,10 +1468,6 @@ extension TLPhotosPickerViewController: ViewerControllerDataSource {
             viewable.placeholder = placeholder
             if asset.mediaType == .video {
                 viewable.type = .video
-                if let player = cell.player, let item = player.currentItem {
-                    viewable.avplayerItem = AVPlayerItem(asset: item.asset)
-                }
-                viewable.assetID = nil
             } else {
                 if asset.mediaSubtypes == .photoLive {
                     viewable.type = .livePhoto
