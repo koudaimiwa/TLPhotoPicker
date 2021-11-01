@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A47A24E2726DBB1004B075D /* LivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A47A24D2726DBAF004B075D /* LivePhoto.swift */; };
+		0A6EAD69272DA5A000A28204 /* AVAsset-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6EAD68272DA5A000A28204 /* AVAsset-extensions.swift */; };
 		0AF170E32655FD6B005C5E5B /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF170DA2655FD55005C5E5B /* UILabel.swift */; };
 		0AFD183B26517C300011592E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD183A26517C300011592E /* Photo.swift */; };
 		0ED0A3F730905458A91F1007589E77A5 /* TLPhotoPicker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CCAD5CC383D706C74FF473D3BC86F5 /* TLPhotoPicker-dummy.m */; };
@@ -68,7 +69,8 @@
 
 /* Begin PBXFileReference section */
 		01DFA57283C560326E7636A1B706CDF5 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SynchronizedDictionary.swift; path = TLPhotoPicker/Classes/SynchronizedDictionary.swift; sourceTree = "<group>"; };
-		0A47A24D2726DBAF004B075D /* LivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhoto.swift; sourceTree = "<group>"; };
+		0A47A24D2726DBAF004B075D /* LivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LivePhoto.swift; path = TLPhotoPicker/Classes/LivePhoto.swift; sourceTree = "<group>"; };
+		0A6EAD68272DA5A000A28204 /* AVAsset-extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVAsset-extensions.swift"; path = "TLPhotoPicker/Classes/AVAsset-extensions.swift"; sourceTree = "<group>"; };
 		0A952AE660524CD61521511E439A39B9 /* TLPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = TLPhotoCollectionViewCell.xib; path = TLPhotoPicker/Classes/TLPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		0AF170DA2655FD55005C5E5B /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UILabel.swift; path = TLPhotoPicker/Classes/UILabel.swift; sourceTree = "<group>"; };
 		0AFD183A26517C300011592E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 		BE9408658201E1B2ABA1A22BA5FE6906 /* TLPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
+				0A6EAD68272DA5A000A28204 /* AVAsset-extensions.swift */,
 				0A47A24D2726DBAF004B075D /* LivePhoto.swift */,
 				F03EEB1157109E58C0CBBC784CF16546 /* ScrollBar.swift */,
 				01DFA57283C560326E7636A1B706CDF5 /* SynchronizedDictionary.swift */,
@@ -476,6 +479,7 @@
 				417F9EAE27C397380A40D603933B87B7 /* TLPhotopickerDataSourcesProtocol.swift in Sources */,
 				D3188EAECE0B80DF1424707BC2A5C28A /* TLPhotosPickerViewController.swift in Sources */,
 				DDE5AFD236F06D3FBDC62C216C54A37D /* UIImage+CenteredFrame.swift in Sources */,
+				0A6EAD69272DA5A000A28204 /* AVAsset-extensions.swift in Sources */,
 				FD9E0EE8F1A2378489CF2DB1BF02A7A7 /* UIViewController+Window.swift in Sources */,
 				675A6484B5D2C98459BE045B85AF67B7 /* UIViewExtensions.swift in Sources */,
 				165040E03C3A355B2424EAACAC0B8939 /* VideoProgressView.swift in Sources */,

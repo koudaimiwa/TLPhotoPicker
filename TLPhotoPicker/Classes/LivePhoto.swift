@@ -11,23 +11,23 @@ import AVFoundation
 import MobileCoreServices
 import Photos
 
-class LivePhoto {
+public class LivePhoto {
     // MARK: PUBLIC
-    typealias LivePhotoResources = (pairedImage: URL, pairedVideo: URL)
+    public typealias LivePhotoResources = (pairedImage: URL, pairedVideo: URL)
     /// Returns the paired image and video for the given PHLivePhoto
-    public class func extractResources(from livePhoto: PHLivePhoto, completion: @escaping (LivePhotoResources?) -> Void) {
+    public static func extractResources(from livePhoto: PHLivePhoto, completion: @escaping (LivePhotoResources?) -> Void) {
         queue.async {
             shared.extractResources(from: livePhoto, completion: completion)
         }
     }
     /// Generates a PHLivePhoto from an image and video.  Also returns the paired image and video.
-    public class func generate(from imageURL: URL?, videoURL: URL, progress: @escaping (CGFloat) -> Void, completion: @escaping (PHLivePhoto?, LivePhotoResources?) -> Void) {
+    public static func generate(from imageURL: URL?, videoURL: URL, progress: @escaping (CGFloat) -> Void, completion: @escaping (PHLivePhoto?, LivePhotoResources?) -> Void) {
         queue.async {
             shared.generate(from: imageURL, videoURL: videoURL, progress: progress, completion: completion)
         }
     }
     /// Save a Live Photo to the Photo Library by passing the paired image and video.
-    public class func saveToLibrary(_ resources: LivePhotoResources, completion: @escaping (Bool) -> Void) {
+    public static func saveToLibrary(_ resources: LivePhotoResources, completion: @escaping (Bool) -> Void) {
         PHPhotoLibrary.shared().performChanges({
             let creationRequest = PHAssetCreationRequest.forAsset()
             let options = PHAssetResourceCreationOptions()
@@ -40,25 +40,34 @@ class LivePhoto {
             completion(success)
         })
     }
+        
+    public static func deleteTempFolderItems() {
+        do {
+            var documentsPath = URL(string: NSTemporaryDirectory())!
+            documentsPath.appendPathComponent("LivePhoto")
+            let folder = try FileManager.default.contentsOfDirectory(atPath: documentsPath.absoluteString)
+            for filename in folder {
+                let filePathName = "\(documentsPath)/\(filename)"
+                try FileManager.default.removeItem(atPath: filePathName)
+            }
+        } catch let error {
+            print(error)
+        }
+    }
     
     // MARK: PRIVATE
     private static let shared = LivePhoto()
     private static let queue = DispatchQueue(label: "com.limit-point.LivePhotoQueue", attributes: .concurrent)
     lazy private var cacheDirectory: URL? = {
-        if let cacheDirectoryURL = try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
-            let fullDirectory = cacheDirectoryURL.appendingPathComponent("com.limit-point.LivePhoto", isDirectory: true)
-            if !FileManager.default.fileExists(atPath: fullDirectory.absoluteString) {
-                try? FileManager.default.createDirectory(at: fullDirectory, withIntermediateDirectories: true, attributes: nil)
-            }
-            return fullDirectory
+        var cacheDirectoryURL = URL(
+            fileURLWithPath: NSTemporaryDirectory(),
+            isDirectory: true).appendingPathComponent("LivePhoto")
+        if !FileManager.default.fileExists(atPath: cacheDirectoryURL.absoluteString) {
+            try? FileManager.default.createDirectory(at: cacheDirectoryURL, withIntermediateDirectories: true, attributes: nil)
         }
-        return nil
+        return cacheDirectoryURL
     }()
-    
-    deinit {
-        clearCache()
-    }
-    
+        
     private func generateKeyPhoto(from videoURL: URL) -> URL? {
         var percent:Float = 0.5
         let videoAsset = AVURLAsset(url: videoURL)
@@ -71,11 +80,6 @@ class LivePhoto {
         do {
             try? jpegData.write(to: url)
             return url
-        }
-    }
-    private func clearCache() {
-        if let cacheDirectory = cacheDirectory {
-            try? FileManager.default.removeItem(at: cacheDirectory)
         }
     }
     
@@ -207,16 +211,7 @@ class LivePhoto {
             let videoReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings: videoReaderSettings)
             videoReader?.add(videoReaderOutput)
             // Create Video Writer Input
-            let videoWriterInput: AVAssetWriterInput!
-            if #available(iOS 11.0, *) {
-                videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: [AVVideoCodecKey : AVVideoCodecType.h264, AVVideoWidthKey : videoTrack.naturalSize.width, AVVideoHeightKey : videoTrack.naturalSize.height])
-                videoWriterInput.transform = videoTrack.preferredTransform
-                videoWriterInput.expectsMediaDataInRealTime = true
-                assetWriter?.add(videoWriterInput)
-            } else {
-                videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: [AVVideoCodecKey : AVVideoCodecH264, AVVideoWidthKey : videoTrack.naturalSize.width, AVVideoHeightKey : videoTrack.naturalSize.height])
-                
-            }
+            let videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: [AVVideoCodecKey : AVVideoCodecH264, AVVideoWidthKey : videoTrack.naturalSize.width, AVVideoHeightKey : videoTrack.naturalSize.height])
             videoWriterInput.transform = videoTrack.preferredTransform
             videoWriterInput.expectsMediaDataInRealTime = true
             assetWriter?.add(videoWriterInput)

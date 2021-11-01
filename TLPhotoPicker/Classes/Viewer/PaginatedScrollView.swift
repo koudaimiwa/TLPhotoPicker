@@ -112,8 +112,8 @@ extension PaginatedScrollView: UIScrollViewDelegate {
         }
         
         if isExceptedLastItem {
-            if contentSize.width - frame.width <= contentOffset.x {
-                contentOffset.x = contentSize.width - frame.width
+            if contentSize.width - (frame.width * 2) <= contentOffset.x {
+                contentOffset.x = contentSize.width - (frame.width * 2)
             }
         }
        

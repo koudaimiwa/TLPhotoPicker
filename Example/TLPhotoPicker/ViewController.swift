@@ -8,7 +8,6 @@
 
 import UIKit
 import TLPhotoPicker
-import Photos
 import PhotosUI
 
 class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
@@ -16,7 +15,41 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     var selectedAssets = [TLPHAsset]()
     @IBOutlet var label: UILabel!
     @IBOutlet var imageView: UIImageView!
-    
+        
+    private func testLivePhotoView() {
+        let liveView = PHLivePhotoView(frame: view.frame)
+        liveView.contentMode = .scaleAspectFit
+        let videoUrl = URL(string: "https://firebasestorage.googleapis.com/v0/b/trip-7a2be.appspot.com/o/article_images%2F300DA4A0-5A51-40D7-94B4-AD85784E64B2.mp4?alt=media&token=93d3e3c0-1fbc-4f5d-8a7c-5fb303d66ed9")!
+        var savedVideoUrl: URL!
+        do {
+            let dispatchGroup = DispatchGroup()
+            dispatchGroup.enter()
+            if videoUrl.pathExtension != ".mov" || videoUrl.pathExtension != ".MOV" {
+                let asset = AVAsset(url: videoUrl)
+                let _ = (asset as! AVURLAsset).convertMp4ToMov(completion: { [weak self] (outputURL) in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+                    savedVideoUrl = outputURL
+                })
+            }
+            
+            dispatchGroup.notify(queue: .main) { [weak self] in
+                LivePhoto.generate(from: nil, videoURL: savedVideoUrl) { (progress) in
+                } completion: { [weak self] (livePhoto, resources) in
+                    guard let _self = self else { return }
+                    liveView.livePhoto = livePhoto
+                    _self.view.addSubview(liveView)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        LivePhoto.deleteTempFolderItems()
+                    }
+                }
+            }
+        } catch let error {
+            print(error)
+        }
+    }
+        
     @IBAction func iosPickerButtonTap(_ sender: Any) {
         if #available(iOS 14, *) {
             var configuration = PHPickerConfiguration()
@@ -27,6 +60,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
             present(picker, animated: true, completion: nil)
         }
     }
+        
     @IBAction func pickerButtonTap() {
         let viewController = CustomPhotoPickerViewController()
         viewController.delegate = self
@@ -182,7 +216,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
             })
         }
     }
-    
+        
     func getFirstSelectedImage() {
         if let asset = self.selectedAssets.first {
             if asset.type == .video {

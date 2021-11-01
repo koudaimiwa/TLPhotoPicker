@@ -331,6 +331,7 @@ extension VideoView {
                 guard let _self = self else { return }
                 player.pause()
                 player.seek(to: .zero)
+                NotificationCenter.default.removeObserver(_self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
                 player.isMuted = false
                 _self.playerLayer.player = player
                 _self.playerLayer.isHidden = true
