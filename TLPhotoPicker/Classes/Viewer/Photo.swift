@@ -23,11 +23,11 @@ public class Photo: Viewable {
     
     public var assetID: String?
     
-    public var url: String?
-    
     public var placeholder: UIImage = UIImage()
     
     public var avplayer: AVPlayer?
+    
+    public var livePhoto: PHLivePhoto?
     
     public init(id: String) {
         self.id = id
@@ -56,11 +56,8 @@ public class Photo: Viewable {
                     completion(livePhoto, nil)
                 }
             }
-        } else if let _videoUrl = url {
-            LivePhoto.generate(from: nil, videoURL: URL(string: _videoUrl)!) { (progress) in
-            } completion: { (livePhoto, resource) in
-                completion(livePhoto, nil)
-            }
+        } else if let _livePhoto = self.livePhoto {
+            completion(livePhoto, nil)
         }
     }
     
@@ -72,7 +69,6 @@ public class Photo: Viewable {
             let id = UUID().uuidString
             let photo = Photo(id: id)
             if ["MOV", "mov", "MP4", "mp4", "m4v", "M4V"].contains(url.lastPathComponent) {
-                photo.url = url.absoluteString
                 if livePhotoIndices.contains(index) {
                     photo.type = .livePhoto
                 } else {

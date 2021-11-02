@@ -316,16 +316,6 @@ extension VideoView {
                     }
                 }
             #endif
-        } else if let url = viewable.url {
-            DispatchQueue.global(qos: .background).async { [weak self] in
-                guard let _self = self else { return }
-                let streamingURL = URL(string: url)!
-                _self.playerLayer.player = AVPlayer(url: streamingURL)
-                _self.playerLayer.isHidden = true
-                DispatchQueue.main.async {
-                    completion()
-                }
-            }
         } else if let player = viewable.avplayer {
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let _self = self else { return }
