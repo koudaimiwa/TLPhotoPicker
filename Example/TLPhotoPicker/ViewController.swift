@@ -180,6 +180,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         configure.previewAtForceTouch = true
         configure.autoPlay = true
         configure.usedCameraButton = false
+        configure.allowedLivePhotos = true
         viewController.configure = configure
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self

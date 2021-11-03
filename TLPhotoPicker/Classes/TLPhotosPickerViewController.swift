@@ -1469,7 +1469,7 @@ extension TLPhotosPickerViewController: ViewerControllerDataSource {
             if asset.mediaType == .video {
                 viewable.type = .video
             } else {
-                if asset.mediaSubtypes == .photoLive {
+                if asset.mediaSubtypes.contains(.photoLive) {
                     viewable.type = .livePhoto
                 } else {
                     viewable.type = .image

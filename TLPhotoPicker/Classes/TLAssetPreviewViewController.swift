@@ -135,7 +135,7 @@ private extension TLAssetPreviewViewController {
         imageView.isHidden = true
         livePhotoView.isHidden = false
         
-        if asset.mediaSubtypes == .photoLive {
+        if asset.mediaSubtypes.contains(.photoLive) {
             previewLivePhoto(from: asset)
         } else {
             previewPhoto(from: asset)
