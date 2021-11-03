@@ -320,10 +320,14 @@ extension VideoView {
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let _self = self else { return }
                 player.pause()
-                player.seek(to: .zero)
-                NotificationCenter.default.removeObserver(_self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
-                player.isMuted = false
-                _self.playerLayer.player = player
+                if let item = player.currentItem, let copy = item.copy() as? AVPlayerItem {
+                    _self.playerLayer.player = AVPlayer(playerItem: copy)
+                } else {
+                    _self.playerLayer.player = player
+                }
+                
+                _self.playerLayer.player?.seek(to: .zero)
+                _self.playerLayer.player?.isMuted = false
                 _self.playerLayer.isHidden = true
                 DispatchQueue.main.async {
                     completion()
