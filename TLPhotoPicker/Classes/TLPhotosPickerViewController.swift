@@ -268,6 +268,7 @@ open class TLPhotosPickerViewController: UIViewController {
     }
     
     private func loadPhotos(limitMode: Bool) {
+        getSections()
         self.photoLibrary.limitMode = limitMode
         self.photoLibrary.delegate = self
         self.photoLibrary.fetchCollection(configure: self.configure)
@@ -302,7 +303,7 @@ open class TLPhotosPickerViewController: UIViewController {
     
     private func checkAuthorization() {
         if #available(iOS 14.0, *) {
-            let status = PHPhotoLibrary.authorizationStatus(for:  .readWrite)
+            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
             processAuthorization(status: status)
         } else {
             let status = PHPhotoLibrary.authorizationStatus()
@@ -336,7 +337,16 @@ open class TLPhotosPickerViewController: UIViewController {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getSections()
+        let status: PHAuthorizationStatus
+        if #available(iOS 14, *) {
+            status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        } else {
+            status = PHPhotoLibrary.authorizationStatus()
+        }
+        
+        if status != .denied && status != .restricted && status != .notDetermined {
+            getSections()
+        }
     }
     
     private func findIndexAndReloadCells(phAsset: PHAsset) {
@@ -1463,7 +1473,8 @@ extension TLPhotosPickerViewController: ViewerControllerDataSource {
     }
     
     public func viewerController(_ viewerController: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
-        let viewable = self.photo(at: indexPath)
+        let viewable = Photo(id: "")
+        viewable.assetID = self.photo(at: indexPath).assetID ?? ""
         if let cell = self.collectionView?.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let asset = cell.asset, let placeholder = Photo.thumbnail(for: asset) {
             viewable.placeholder = placeholder
             if asset.mediaType == .video {

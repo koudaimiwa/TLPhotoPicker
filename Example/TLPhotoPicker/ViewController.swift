@@ -53,7 +53,6 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     @IBAction func iosPickerButtonTap(_ sender: Any) {
         if #available(iOS 14, *) {
             var configuration = PHPickerConfiguration()
-            configuration.filter = .images
             configuration.selectionLimit = 0
             let picker = PHPickerViewController(configuration: configuration)
             picker.delegate = self
@@ -268,27 +267,32 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     
     func handleNoAlbumPermissions(picker: TLPhotosPickerViewController) {
         picker.dismiss(animated: true) {
-            let alert = UIAlertController(title: "", message: "Denied albums permissions granted", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            let alert = UIAlertController(title: "アルバムを読み込むことができません", message: "設定から写真のアクセスを許可してください", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "了解", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "設定へ", style: .default, handler: { _ in
+                if let bundleId = Bundle.main.bundleIdentifier, let url = URL(string: "App-prefs:Privacy&path=PHOTOS/\(bundleId)") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }))
             self.present(alert, animated: true, completion: nil)
         }
     }
     
     func handleNoCameraPermissions(picker: TLPhotosPickerViewController) {
         let alert = UIAlertController(title: "", message: "Denied camera permissions granted", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "了解", style: .default, handler: nil))
         picker.present(alert, animated: true, completion: nil)
     }
 
     func showExceededMaximumAlert(vc: UIViewController) {
-        let alert = UIAlertController(title: "", message: "Exceed Maximum Number Of Selection", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        let alert = UIAlertController(title: "これ以上選択できません", message: "制限枚数以下になるように選択してください", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "了解", style: .default, handler: nil))
         vc.present(alert, animated: true, completion: nil)
     }
     
     func showUnsatisifiedSizeAlert(vc: UIViewController) {
         let alert = UIAlertController(title: "Oups!", message: "The required size is: 300 x 300", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "了解", style: .default, handler: nil))
         vc.present(alert, animated: true, completion: nil)
     }
 }
