@@ -76,7 +76,6 @@ class VideoView: UIView {
 
         guard let image = self.image else { return }
         self.frame = image.centeredFrame()
-
         var playerLayerFrame = image.centeredFrame()
         playerLayerFrame.origin.x = 0
         playerLayerFrame.origin.y = 0

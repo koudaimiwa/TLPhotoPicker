@@ -173,8 +173,6 @@ class ViewableController: UIViewController {
             self.viewable = viewable
             self.videoView.image = viewable.placeholder
             self.imageView.image = viewable.placeholder
-            self.videoView.frame = viewable.placeholder.centeredFrame()
-            self.livePhotoView.frame = viewable.placeholder.centeredFrame()
             self.changed = false
         }
     }
@@ -342,8 +340,12 @@ class ViewableController: UIViewController {
                 if !shouldAutoplayVideo {
                     viewable.media { image, _ in
                         DispatchQueue.main.async {
-                            if let image = image {
-                                self.imageView.image = image
+                            if let _image = image {
+                                if !(_image.size.width == viewable.placeholder.size.width && _image.size.height == viewable.placeholder.size.height) {
+                                    self.videoView.image = _image
+                                    self.videoView.layoutSubviews()
+                                    self.imageView.image = _image
+                                }
                             }
                         }
                     }
@@ -390,6 +392,7 @@ class ViewableController: UIViewController {
                     guard let _self = self else { return }
                     if let _livePhoto = livePhoto {
                         _self.livePhotoView.livePhoto = _livePhoto
+                        _self.livePhotoView.frame = _livePhoto.centeredFrame()
                     }
                 }
             }
