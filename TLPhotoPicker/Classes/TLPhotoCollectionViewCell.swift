@@ -188,6 +188,6 @@ open class TLPhotoCollectionViewCell: UICollectionViewCell {
         }
         let touch = touches.first as! UITouch
         let point = touch.location(in: touch.view)
-        isTouchOrderLabel = _label.frame.origin.x < point.x && point.y < _label.frame.origin.y + _label.frame.size.height
+        isTouchOrderLabel = _label.frame.origin.x - 20 < point.x && point.y < _label.frame.origin.y + _label.frame.size.height + 20
     }
 }
