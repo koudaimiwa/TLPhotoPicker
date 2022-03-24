@@ -137,7 +137,7 @@ public class Photo: Viewable {
 
         let bounds = UIScreen.main.bounds.size
         let targetSize = CGSize(width: bounds.width * 2, height: bounds.height * 2)
-        imageManager.requestImage(for: asset, targetSize: bounds, contentMode: .aspectFit, options: requestOptions) { image, _ in
+        imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: requestOptions) { image, _ in
             // WARNING: This could fail if your phone doesn't have enough storage. Since the photo is probably
             // stored in iCloud downloading it to your phone will take most of the space left making this feature fail.
             // guard let image = image else { fatalError("Couldn't get photo data for asset \(asset)") }
