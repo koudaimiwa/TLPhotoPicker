@@ -320,9 +320,9 @@ extension VideoView {
                 guard let _self = self else { return }
                 player.pause()
                 if let item = player.currentItem {
-                    if let copy = item.copy() as? AVPlayerItem {
+                    if item is CachingPlayerItem, let copy = item.copy() as? CachingPlayerItem {
                         _self.playerLayer.player = AVPlayer(playerItem: copy)
-                    } else if let copy = item.copy() as? CachingPlayerItem {
+                    } else if item is AVPlayerItem, let copy = item.copy() as? AVPlayerItem {
                         _self.playerLayer.player = AVPlayer(playerItem: copy)
                     }
                 } else {
