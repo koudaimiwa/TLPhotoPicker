@@ -319,14 +319,12 @@ extension VideoView {
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let _self = self else { return }
                 player.pause()
-                if let item = player.currentItem {
-                    if item is CachingPlayerItem, let copy = item.copy() as? CachingPlayerItem {
-                        _self.playerLayer.player = AVPlayer(playerItem: copy)
-                    } else if item is AVPlayerItem, let copy = item.copy() as? AVPlayerItem {
-                        _self.playerLayer.player = AVPlayer(playerItem: copy)
-                    }
+                if let item = player.currentItem, let url = (item.asset as? AVURLAsset)?.url, url.isFileURL, let copy = item.copy() as? AVPlayerItem {
+                    _self.playerLayer.player = AVPlayer(playerItem: copy)
+                    print("TLPhotoPicker: avplayer")
                 } else {
                     _self.playerLayer.player = player
+                    print("TLPhotoPicker: cachingPlayer")
                 }
                 
                 _self.playerLayer.player?.seek(to: .zero)
