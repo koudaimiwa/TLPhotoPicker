@@ -321,10 +321,9 @@ extension VideoView {
                 player.pause()
                 if let item = player.currentItem, let url = (item.asset as? AVURLAsset)?.url, url.isFileURL, let copy = item.copy() as? AVPlayerItem {
                     _self.playerLayer.player = AVPlayer(playerItem: copy)
-                    print("TLPhotoPicker: avplayer")
-                } else {
-                    _self.playerLayer.player = player
-                    print("TLPhotoPicker: cachingPlayer")
+                } else if let item = player.currentItem, let asset = item.asset.copy() as? AVAsset {
+                    let copyItem = AVPlayerItem(asset: asset, automaticallyLoadedAssetKeys: item.automaticallyLoadedAssetKeys)
+                    _self.playerLayer.player = AVPlayer(playerItem: copyItem)
                 }
                 
                 _self.playerLayer.player?.seek(to: .zero)
