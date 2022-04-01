@@ -409,13 +409,15 @@ extension ViewerController {
         }
         
         let centeredImageFrame = image.centeredFrame()
-        UIView.animate(withDuration: 0.25, animations: {
+        print("Viewer centeredImageFrame before present check: \(presentedView.frame)")
+        UIView.animate(withDuration: image.size.width < view.bounds.size.width/2 ? 0.5 : 0.25, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 0
             self.overlayView.alpha = 1.0
             #if os(iOS)
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
             presentedView.frame = centeredImageFrame
+            print("Viewer centeredImageFrame after present check: \(centeredImageFrame)")
         }, completion: { _ in
             self.toggleButtons(true)
             self.buttonsAreVisible = true
@@ -491,14 +493,15 @@ extension ViewerController {
         window.addSubview(self.overlayView)
         window.addSubview(presentedView)
         self.shouldUseLightStatusBar = false
-
-        UIView.animate(withDuration: 0.30, animations: {
+        print("Viewer convert before dismiss check: \(presentedView.frame)")
+        UIView.animate(withDuration: image.size.width < view.bounds.size.width/2 ? 0.15 : 0.30, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 1
             self.overlayView.alpha = 0.0
             #if os(iOS)
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
             presentedView.frame = self.view.convert(selectedCellFrame, from: self.collectionView)
+            print("Viewer convert after dismiss check: \(presentedView.frame)")
         }, completion: { _ in
             if let existingCell = self.collectionView.cellForItem(at: indexPath) {
                 existingCell.alpha = 1
