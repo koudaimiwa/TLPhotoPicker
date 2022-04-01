@@ -372,9 +372,13 @@ extension ViewerController {
 
         let isArticle = view.bounds.size.width/2 < image.size.width
         let centeredImageFrame = image.centeredFrame()
+        print("present tl before centerFrame check: \(centeredImageFrame)")
+        print("present tl before selectCell check: \(selectedCell.frame)")
+        
         let presentedView = self.presentedViewCopy()
         presentedView.frame = self.view.convert(isArticle ? centeredImageFrame : selectedCell.frame, from: self.collectionView)
         presentedView.image = image
+        print("present tl after presentedView check: \(presentedView.frame)")
 
         self.view.addSubview(self.overlayView)
         self.view.addSubview(presentedView)
@@ -417,6 +421,7 @@ extension ViewerController {
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
             presentedView.frame = centeredImageFrame
+            print("present tl after presentedView animetion check: \(presentedView.frame)")
         }, completion: { _ in
             self.toggleButtons(true)
             self.buttonsAreVisible = true
@@ -483,11 +488,11 @@ extension ViewerController {
 
         let presentedView = self.presentedViewCopy()
         presentedView.frame = image.centeredFrame()
-        print("Viewer convert before dismiss check: \(presentedView.frame)")
+        print("dismiss tl before presentedView check: \(presentedView.frame)")
         presentedView.image = image
         if self.isDragging {
             presentedView.center = viewableController.imageView.center
-            print("Viewer convert before dismiss check: \(presentedView.frame)")
+            print("dismiss tl before presentedView Dragging check: \(presentedView.frame)")
         }
 
         let isArticle = view.bounds.size.width/2 < image.size.width
@@ -496,14 +501,14 @@ extension ViewerController {
         window.addSubview(presentedView)
         self.shouldUseLightStatusBar = false
         
-        UIView.animate(withDuration: view.bounds.size.width/2 < image.size.width ? 0.15 : 0.30, animations: {
+        UIView.animate(withDuration: 0.30, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 1
             self.overlayView.alpha = 0.0
             #if os(iOS)
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
             presentedView.frame = self.view.convert(selectedCellFrame, from: self.collectionView)
-            print("Viewer convert after dismiss check: \(presentedView.frame)")
+            print("dismiss tl after presentedView check: \(presentedView.frame)")
         }, completion: { _ in
             if let existingCell = self.collectionView.cellForItem(at: indexPath) {
                 existingCell.alpha = 1
