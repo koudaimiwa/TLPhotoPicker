@@ -371,25 +371,20 @@ extension ViewerController {
         selectedCell.alpha = 0
 
         let isArticle = view.bounds.size.width/2 < image.size.width
-        print("present tl before selectCell check: \(selectedCell.frame)")
         
         let presentedView = self.presentedViewCopy()
         //TODO: centerFrameだとviewの中心点を返すため、うまく変換できないため
         //これをimageviewのframeの値に変換する必要がある
         var isContainLargeImg = false
         var largeImgFrame: CGRect?
-        print("isArticle check: \(isArticle)")
         if isArticle {
-            let imgView = selectedCell.subviews.compactMap{$0 as? UIImageView}.first
+            let imgView = selectedCell.contentView.subviews.compactMap{$0 as? UIImageView}.first
             isContainLargeImg = imgView != nil
-            print("isContain imgView check: \(isContainLargeImg)")
             largeImgFrame = imgView?.frame
-            print("largeImgFrame check: \(largeImgFrame)")
         }
         presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCell.frame, from: self.collectionView)
         presentedView.image = image
-        print("present tl after presentedView check: \(presentedView.frame)")
-
+        
         self.view.addSubview(self.overlayView)
         self.view.addSubview(presentedView)
 
@@ -424,7 +419,6 @@ extension ViewerController {
                 ])
         }
         let centeredImageFrame = image.centeredFrame()
-        print("present tl before centerFrame check: \(centeredImageFrame)")
         
         UIView.animate(withDuration: 0.25, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 0
@@ -433,7 +427,6 @@ extension ViewerController {
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
             presentedView.frame = centeredImageFrame
-            print("present tl after presentedView animetion check: \(presentedView.frame)")
         }, completion: { _ in
             self.toggleButtons(true)
             self.buttonsAreVisible = true
@@ -499,11 +492,9 @@ extension ViewerController {
 
         let presentedView = self.presentedViewCopy()
         presentedView.frame = image.centeredFrame()
-        print("dismiss tl before presentedView check: \(presentedView.frame)")
         presentedView.image = image
         if self.isDragging {
             presentedView.center = viewableController.imageView.center
-            print("dismiss tl before presentedView Dragging check: \(presentedView.frame)")
         }
 
         let isArticle = view.bounds.size.width/2 < image.size.width
@@ -514,13 +505,10 @@ extension ViewerController {
         
         var isContainLargeImg = false
         var largeImgFrame: CGRect?
-        print("isArticle check: \(isArticle)")
         if isArticle {
-            let imgView = selectedCell.subviews.compactMap{$0 as? UIImageView}.first
+            let imgView = selectedCell.contentView.subviews.compactMap{$0 as? UIImageView}.first
             isContainLargeImg = imgView != nil
-            print("isContainLargeImg check: \(isContainLargeImg)")
             largeImgFrame = imgView?.frame
-            print("largeImgFrame check: \(largeImgFrame)")
         }
         
         UIView.animate(withDuration: 0.30, animations: {
@@ -530,7 +518,6 @@ extension ViewerController {
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
             presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCellFrame, from: self.collectionView)
-            print("dismiss tl after presentedView check: \(presentedView.frame)")
         }, completion: { _ in
             if let existingCell = self.collectionView.cellForItem(at: indexPath) {
                 existingCell.alpha = 1
