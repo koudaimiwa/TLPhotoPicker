@@ -378,11 +378,13 @@ extension ViewerController {
         //これをimageviewのframeの値に変換する必要がある
         var isContainLargeImg = false
         var largeImgFrame: CGRect?
-        
+        print("isArticle check: \(isArticle)")
         if isArticle {
             let imgView = selectedCell.subviews.compactMap{$0 as? UIImageView}.first
             isContainLargeImg = imgView != nil
+            print("isContain imgView check: \(isContainLargeImg)")
             largeImgFrame = imgView?.frame
+            print("largeImgFrame check: \(largeImgFrame)")
         }
         presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCell.frame, from: self.collectionView)
         presentedView.image = image
@@ -512,10 +514,13 @@ extension ViewerController {
         
         var isContainLargeImg = false
         var largeImgFrame: CGRect?
+        print("isArticle check: \(isArticle)")
         if isArticle {
             let imgView = selectedCell.subviews.compactMap{$0 as? UIImageView}.first
             isContainLargeImg = imgView != nil
+            print("isContainLargeImg check: \(isContainLargeImg)")
             largeImgFrame = imgView?.frame
+            print("largeImgFrame check: \(largeImgFrame)")
         }
         
         UIView.animate(withDuration: 0.30, animations: {
