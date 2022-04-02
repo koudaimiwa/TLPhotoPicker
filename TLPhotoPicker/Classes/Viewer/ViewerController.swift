@@ -371,12 +371,20 @@ extension ViewerController {
         selectedCell.alpha = 0
 
         let isArticle = view.bounds.size.width/2 < image.size.width
-        let centeredImageFrame = image.centeredFrame()
-        print("present tl before centerFrame check: \(centeredImageFrame)")
         print("present tl before selectCell check: \(selectedCell.frame)")
         
         let presentedView = self.presentedViewCopy()
-        presentedView.frame = self.view.convert(isArticle ? centeredImageFrame : selectedCell.frame, from: self.collectionView)
+        //TODO: centerFrameだとviewの中心点を返すため、うまく変換できないため
+        //これをimageviewのframeの値に変換する必要がある
+        var isContainLargeImg = false
+        var largeImgFrame: CGRect?
+        
+        if isArticle {
+            let imgView = selectedCell.subviews.compactMap{$0 as? UIImageView}.first
+            isContainLargeImg = imgView != nil
+            largeImgFrame = imgView?.frame
+        }
+        presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCell.frame, from: self.collectionView)
         presentedView.image = image
         print("present tl after presentedView check: \(presentedView.frame)")
 
@@ -413,6 +421,8 @@ extension ViewerController {
                 footerView.heightAnchor.constraint(equalToConstant: ViewerController.FooterHeight)
                 ])
         }
+        let centeredImageFrame = image.centeredFrame()
+        print("present tl before centerFrame check: \(centeredImageFrame)")
         
         UIView.animate(withDuration: 0.25, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 0
@@ -466,8 +476,7 @@ extension ViewerController {
 
         guard let indexPath = viewableController.indexPath else { return }
 
-        guard let selectedCellFrame = self.collectionView.layoutAttributesForItem(at: indexPath)?.frame else { return }
-
+        guard let selectedCell = self.collectionView.cellForItem(at: indexPath), let selectedCellFrame = self.collectionView.layoutAttributesForItem(at: indexPath)?.frame else { return }
         let viewable = self.dataSource!.viewerController(self, viewableAt: indexPath)
         let image = viewable.placeholder
         viewableController.imageView.alpha = 0
@@ -501,13 +510,21 @@ extension ViewerController {
         window.addSubview(presentedView)
         self.shouldUseLightStatusBar = false
         
+        var isContainLargeImg = false
+        var largeImgFrame: CGRect?
+        if isArticle {
+            let imgView = selectedCell.subviews.compactMap{$0 as? UIImageView}.first
+            isContainLargeImg = imgView != nil
+            largeImgFrame = imgView?.frame
+        }
+        
         UIView.animate(withDuration: 0.30, animations: {
             self.presentingViewController?.tabBarController?.tabBar.alpha = 1
             self.overlayView.alpha = 0.0
             #if os(iOS)
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
-            presentedView.frame = self.view.convert(selectedCellFrame, from: self.collectionView)
+            presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCellFrame, from: self.collectionView)
             print("dismiss tl after presentedView check: \(presentedView.frame)")
         }, completion: { _ in
             if let existingCell = self.collectionView.cellForItem(at: indexPath) {
