@@ -17,7 +17,8 @@ class VideoView: UIView {
     static let audioSessionVolumeKeyPath = "outputVolume"
     weak var delegate: VideoViewDelegate?
     var playerCurrentItemStatus = AVPlayerItem.Status.unknown
-
+    private var isAddedStatusObserver: Bool = false
+    
     fileprivate lazy var playerLayer: AVPlayerLayer = {
         let playerLayer = AVPlayerLayer()
 
@@ -159,6 +160,7 @@ class VideoView: UIView {
                 guard let player = _self.playerLayer.player else { return }
                 guard let currentItem = player.currentItem else { return }
                 _self.shouldRegisterForStatusNotifications = false
+                _self.isAddedStatusObserver = true
                 currentItem.addObserver(_self, forKeyPath: VideoView.playerItemStatusKeyPath, options: [], context: nil)
                 do {
                     let audioSession = AVAudioSession.sharedInstance()
@@ -337,11 +339,12 @@ extension VideoView {
     }
 
     fileprivate func removeBeforePlayingObservers() {
-        if self.shouldRegisterForStatusNotifications == false {
+        if self.shouldRegisterForStatusNotifications == false && isAddedStatusObserver {
             guard let player = self.playerLayer.player else { return }
             guard let currentItem = player.currentItem else { return }
             
             self.shouldRegisterForStatusNotifications = true
+            isAddedStatusObserver = false
             currentItem.removeObserver(self, forKeyPath: VideoView.playerItemStatusKeyPath)
         }
     }
