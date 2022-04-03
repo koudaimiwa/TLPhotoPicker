@@ -385,8 +385,10 @@ extension ViewerController {
             print("isContain imgView check: \(isContainLargeImg)")
             largeImgFrame = imgView?.frame
             print("largeImgFrame check: \(largeImgFrame)")
+            presentedView.frame = largeImgFrame!
+        } else {
+            presentedView.frame = self.view.convert(selectedCell.frame, from: self.collectionView)
         }
-        presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCell.frame, from: self.collectionView)
         presentedView.image = image
         print("present tl after presentedView check: \(presentedView.frame)")
         
@@ -529,7 +531,7 @@ extension ViewerController {
             #if os(iOS)
                 self.setNeedsStatusBarAppearanceUpdate()
             #endif
-            presentedView.frame = self.view.convert(isArticle && isContainLargeImg ? largeImgFrame! : selectedCellFrame, from: self.collectionView)
+            presentedView.frame = isArticle && isContainLargeImg ? largeImgFrame! : self.view.convert(selectedCellFrame, from: self.collectionView)
             print("dismiss tl after presentedView check: \(presentedView.frame)")
         }, completion: { _ in
             if let existingCell = self.collectionView.cellForItem(at: indexPath) {
