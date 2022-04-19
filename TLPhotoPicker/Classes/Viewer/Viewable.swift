@@ -13,7 +13,8 @@ public protocol Viewable {
     var placeholder: UIImage { get }
     var avplayer: AVPlayer? { get }
     var livePhoto: PHLivePhoto? { get }
-
+    var isMuted: Bool? { get }
+    
     func media(_ completion: @escaping (_ image: UIImage?, _ error: NSError?) -> Void)
     func livePhotoMedia(_ completion: @escaping (_ image: PHLivePhoto?, _ error: NSError?) -> Void)
 }

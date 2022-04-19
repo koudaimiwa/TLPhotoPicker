@@ -386,11 +386,13 @@ class ViewableController: UIViewController {
         case .livePhoto:
             livePhotoView.isHidden = false
             livePhotoBadgeImageView.isHidden = false
+            livePhotoView.isMuted = viewable.isMuted ?? false
             livePhotoView.isUserInteractionEnabled = true
             viewable.livePhotoMedia { (livePhoto, error) in
                 DispatchQueue.main.async { [weak self] in
                     guard let _self = self else { return }
-                    if let _livePhoto = livePhoto {
+                    
+                    if var _livePhoto = livePhoto {
                         _self.livePhotoView.livePhoto = _livePhoto
                         _self.livePhotoView.frame = _livePhoto.centeredFrame()
                     }

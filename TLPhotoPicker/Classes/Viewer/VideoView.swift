@@ -303,10 +303,12 @@ extension VideoView {
                         return
                     }
 
-                    if let player = self.playerLayer.player {
+                    if var player = self.playerLayer.player {
+                        player.isMuted = viewable.isMuted ?? false
                         player.replaceCurrentItem(with: playerItem)
                     } else {
                         let player = AVPlayer(playerItem: playerItem)
+                        player.isMuted = viewable.isMuted ?? false
                         player.rate = Float(playerItem.preferredPeakBitRate)
                         self.playerLayer.player = player
                         self.playerLayer.isHidden = true
@@ -329,7 +331,7 @@ extension VideoView {
                 }
                 
                 _self.playerLayer.player?.seek(to: .zero)
-                _self.playerLayer.player?.isMuted = false
+                _self.playerLayer.player?.isMuted = viewable.isMuted ?? false
                 _self.playerLayer.isHidden = true
                 DispatchQueue.main.async {
                     completion()

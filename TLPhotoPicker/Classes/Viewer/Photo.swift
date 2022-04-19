@@ -18,6 +18,7 @@ public class Section {
 }
 
 public class Photo: Viewable {
+    
     var id: String?
     public var type: ViewableType = .image
     
@@ -28,6 +29,8 @@ public class Photo: Viewable {
     public var avplayer: AVPlayer?
     
     public var livePhoto: PHLivePhoto?
+    
+    public var isMuted: Bool?
     
     public init(id: String) {
         self.id = id
@@ -152,7 +155,7 @@ public class Photo: Viewable {
         let option = PHLivePhotoRequestOptions()
         option.deliveryMode = .opportunistic
         option.isNetworkAccessAllowed = true
-        
+
         let bounds = UIScreen.main.bounds.size
         let targetSize = CGSize(width: bounds.width * 2, height: bounds.height * 2)
         imageManager.requestLivePhoto(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: option) { (livePhoto, info) in
