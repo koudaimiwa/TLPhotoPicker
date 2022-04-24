@@ -280,7 +280,7 @@ public class LivePhoto {
                 didCompleteWriting()
             }
             // Start writing audio
-            if audioReader != nil && audioReader?.status != .reading && audioReader?.startReading() ?? false {
+            if audioReader != nil && audioReader?.status == .unknown && audioReader?.startReading() ?? false {
                 audioWriterInput?.requestMediaDataWhenReady(on: DispatchQueue(label: "audioWriterInputQueue")) {
                     while audioWriterInput?.isReadyForMoreMediaData ?? false {
                         guard let sampleBuffer = audioReaderOutput?.copyNextSampleBuffer() else {
