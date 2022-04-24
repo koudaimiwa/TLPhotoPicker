@@ -35,10 +35,12 @@ extension AVAsset {
         let compositionVideoTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
         let compositionAudioTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
         let sourceVideoTrack = tracks(withMediaType: AVMediaType.video).first!
-        let sourceAudioTrack = tracks(withMediaType: AVMediaType.audio).first!
+        let sourceAudioTrack = tracks(withMediaType: AVMediaType.audio).first
         do {
             try compositionVideoTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: duration), of: sourceVideoTrack, at: CMTime.zero)
-            try compositionAudioTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: duration), of: sourceAudioTrack, at: CMTime.zero)
+            if let _sourceAudioTrack = sourceAudioTrack {
+                try compositionAudioTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: duration), of: _sourceAudioTrack, at: CMTime.zero)
+            }
         } catch let error {
             print(error)
             completion(nil)
