@@ -84,12 +84,13 @@ public class LivePhoto {
     }
     
     private func generate(from imageURL: URL?, videoURL: URL, progress: @escaping (CGFloat) -> Void, completion: @escaping (PHLivePhoto?, LivePhotoResources?) -> Void) {
-        guard let cacheDirectory = cacheDirectory else {
+        guard let cacheDirectory = cacheDirectory, assetWriter?.status != .writing else {
             DispatchQueue.main.async {
                 completion(nil, nil)
             }
             return
         }
+        
         let assetIdentifier = UUID().uuidString
         let _keyPhotoURL = imageURL ?? generateKeyPhoto(from: videoURL)
         guard let keyPhotoURL = _keyPhotoURL, let pairedImageURL = addAssetID(assetIdentifier, toImage: keyPhotoURL, saveTo: cacheDirectory.appendingPathComponent(assetIdentifier).appendingPathExtension("jpg")) else {
