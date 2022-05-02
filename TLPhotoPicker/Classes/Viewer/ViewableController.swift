@@ -341,7 +341,7 @@ class ViewableController: UIViewController {
                     viewable.media { image, _ in
                         DispatchQueue.main.async {
                             if let _image = image {
-                                if viewable.placeholder.size.width < _image.size.width && viewable.placeholder.size.height < _image.size.height {
+                                if viewable.placeholder.size.width <= _image.size.width && viewable.placeholder.size.height <= _image.size.height {
                                     self.videoView.image = _image
                                     self.videoView.layoutSubviews()
                                     self.imageView.image = _image
