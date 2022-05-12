@@ -347,7 +347,7 @@ extension VideoView {
             
             self.shouldRegisterForStatusNotifications = true
             isAddedStatusObserver = false
-            currentItem.removeObserver(self, forKeyPath: VideoView.playerItemStatusKeyPath)
+            try? currentItem.removeObserver(self, forKeyPath: VideoView.playerItemStatusKeyPath)
         }
     }
 
@@ -360,13 +360,13 @@ extension VideoView {
         if self.shouldRegisterForFailureOrEndingNotifications == false {
             self.shouldRegisterForFailureOrEndingNotifications = true
 
-            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
-            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+            try? NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
+            try?  NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
         }
 
         if self.shouldRegisterForOutputVolume == false {
             self.shouldRegisterForOutputVolume = true
-            AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: VideoView.audioSessionVolumeKeyPath)
+            try?  AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: VideoView.audioSessionVolumeKeyPath)
         }
     }
 
