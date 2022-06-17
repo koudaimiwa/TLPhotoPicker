@@ -343,10 +343,6 @@ open class TLPhotosPickerViewController: UIViewController {
         } else {
             status = PHPhotoLibrary.authorizationStatus()
         }
-        
-        if status != .denied && status != .restricted && status != .notDetermined {
-            getSections()
-        }
     }
     
     private func findIndexAndReloadCells(phAsset: PHAsset) {
@@ -604,6 +600,7 @@ extension TLPhotosPickerViewController {
     private func focusFirstCollection() {
         if self.focusedCollection == nil, let collection = self.collections.first {
             self.focusedCollection = collection
+            getSections()
             self.updateTitle()
             self.reloadCollectionView()
         }
@@ -756,7 +753,9 @@ extension TLPhotosPickerViewController {
     private func getSections() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
             guard let _self = self else { return }
-            _self.sections = Photo.constructLocalElements(collection: _self.focusedCollection!)
+            if let collection = _self.focusedCollection {
+                _self.sections = Photo.constructLocalElements(collection: collection)
+            }
         }
     }
     
@@ -949,6 +948,7 @@ extension TLPhotosPickerViewController: PHPhotoLibraryChangeObserver {
             }
             if let collection = _self.focusedCollection {
                 _self.collections[_self.getfocusedIndex()] = collection
+                _self.getSections()
                 _self.albumPopView.tableView.reloadRows(at: [IndexPath(row: _self.getfocusedIndex(), section: 0)], with: .none)
             }
         }
