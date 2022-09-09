@@ -249,7 +249,10 @@ public class LivePhoto {
             var writingAudioFinished = false
             var currentFrameCount = 0
             func didCompleteWriting() {
-                guard writingAudioFinished && writingVideoFinished else { return }
+                guard writingAudioFinished && writingVideoFinished, !(videoReader?.status == .unknown || videoReader?.status == .failed || videoReader?.status == .cancelled) else {
+                    completion(nil)
+                    return
+                }
                 assetWriter?.finishWriting {
                     if self.assetWriter?.status == .completed {
                         completion(destinationURL)
