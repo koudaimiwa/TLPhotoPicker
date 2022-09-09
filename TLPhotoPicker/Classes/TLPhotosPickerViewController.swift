@@ -528,7 +528,9 @@ extension TLPhotosPickerViewController {
         self.updateTitle()
         self.reloadCollectionView()
         self.collectionView.contentOffset = collection.recentPosition
-        getSections()
+        queueForGroupedBy.async { [weak self] in
+            self?.getSections()
+        }
     }
     
     private func cancelAllImageAssets() {
@@ -600,9 +602,11 @@ extension TLPhotosPickerViewController {
     private func focusFirstCollection() {
         if self.focusedCollection == nil, let collection = self.collections.first {
             self.focusedCollection = collection
-            getSections()
             self.updateTitle()
             self.reloadCollectionView()
+            queueForGroupedBy.async { [weak self] in
+                self?.getSections()
+            }
         }
     }
 }
@@ -751,11 +755,8 @@ extension TLPhotosPickerViewController {
     }
     
     private func getSections() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            guard let _self = self else { return }
-            if let collection = _self.focusedCollection {
-                _self.sections = Photo.constructLocalElements(collection: collection)
-            }
+        if let collection = focusedCollection {
+            sections = Photo.constructLocalElements(collection: collection)
         }
     }
     
