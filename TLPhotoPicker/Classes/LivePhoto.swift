@@ -262,7 +262,7 @@ public class LivePhoto {
             if videoReader?.startReading() ?? false {
                 videoWriterInput.requestMediaDataWhenReady(on: DispatchQueue(label: "videoWriterInputQueue")) {
                     while videoWriterInput.isReadyForMoreMediaData {
-                        if let sampleBuffer = videoReaderOutput.copyNextSampleBuffer()  {
+                        if self.videoReader?.status == .reading, let sampleBuffer = videoReaderOutput.copyNextSampleBuffer()  {
                             currentFrameCount += 1
                             let percent:CGFloat = CGFloat(currentFrameCount)/CGFloat(frameCount)
                             progress(percent)
