@@ -391,6 +391,9 @@
 				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1100;
 				TargetAttributes = {
+					0E25D4105A6FD573D0B380E936CC9E11 = {
+						DevelopmentTeam = 75AKJ38VF5;
+					};
 					4BB26F3051CF321D8F0203D5B86E4347 = {
 						LastSwiftMigration = 1240;
 					};
@@ -559,6 +562,7 @@
 			baseConfigurationReference = B1BB0E8C587192B2656453F608B342DE /* TLPhotoPicker.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TLPhotoPicker";
+				DEVELOPMENT_TEAM = 75AKJ38VF5;
 				IBSC_MODULE = TLPhotoPicker;
 				INFOPLIST_FILE = "Target Support Files/TLPhotoPicker/ResourceBundle-TLPhotoPicker-TLPhotoPicker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -606,6 +610,7 @@
 			baseConfigurationReference = 6B34DF71D5207F88ACF1C268E982FDA8 /* TLPhotoPicker.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TLPhotoPicker";
+				DEVELOPMENT_TEAM = 75AKJ38VF5;
 				IBSC_MODULE = TLPhotoPicker;
 				INFOPLIST_FILE = "Target Support Files/TLPhotoPicker/ResourceBundle-TLPhotoPicker-TLPhotoPicker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
