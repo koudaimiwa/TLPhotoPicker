@@ -32,10 +32,7 @@ extension AVAsset {
     
     open func convertMp4ToMov(completion: @escaping (_ outputURL: URL?) -> ()) -> Bool {
         let composition = AVMutableComposition()
-        guard let sourceVideoTrack = tracks(withMediaType: AVMediaType.video).first else {
-            completion(nil)
-            return false
-        }
+        let sourceVideoTrack = tracks(withMediaType: AVMediaType.video).first!
         let sourceAudioTrack = tracks(withMediaType: AVMediaType.audio).first
         let compositionVideoTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
         var compositionAudioTrack: AVMutableCompositionTrack?
