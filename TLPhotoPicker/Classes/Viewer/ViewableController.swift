@@ -311,6 +311,7 @@ class ViewableController: UIViewController {
 
     func display() {
         guard let viewable = self.viewable else { return }
+        imageLoadingIndicator.isHidden = false
         livePhotoView.isHidden = true
         livePhotoView.isUserInteractionEnabled = false
         livePhotoBadgeImageView.isHidden = true
@@ -321,6 +322,7 @@ class ViewableController: UIViewController {
             let deadline = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: deadline) {
                 if self.imageView.image == nil {
+                    imageLoadingIndicator.isHidden = false
                     self.imageLoadingIndicator.startAnimating()
                 }
             }
@@ -395,6 +397,9 @@ class ViewableController: UIViewController {
                     if var _livePhoto = livePhoto {
                         _self.livePhotoView.livePhoto = _livePhoto
                         _self.livePhotoView.frame = _livePhoto.centeredFrame()
+                    } else {
+                        _self.imageLoadingIndicator.isHidden = false
+                        _self.imageLoadingIndicator.startAnimating()
                     }
                 }
             }
