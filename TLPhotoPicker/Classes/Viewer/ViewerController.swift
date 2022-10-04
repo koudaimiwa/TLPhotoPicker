@@ -292,6 +292,17 @@ public class ViewerController: UIViewController {
         let viewableController = self.findOrCreateViewableController(indexPath)
         viewableController.display()
     }
+    
+    public func startLoading() {
+        let viewableController = findOrCreateViewableController(currentIndexPath)
+        viewableController.imageLoadingIndicator.isHidden = false
+        viewableController.imageLoadingIndicator.startAnimating()
+    }
+    
+    public func stopLoading() {
+        let viewableController = findOrCreateViewableController(currentIndexPath)
+        viewableController.imageLoadingIndicator.isHidden = true
+    }
 }
 
 extension ViewerController {

@@ -396,9 +396,6 @@ class ViewableController: UIViewController {
                     if var _livePhoto = livePhoto {
                         _self.livePhotoView.livePhoto = _livePhoto
                         _self.livePhotoView.frame = _livePhoto.centeredFrame()
-                    } else {
-                        _self.imageLoadingIndicator.isHidden = false
-                        _self.imageLoadingIndicator.startAnimating()
                     }
                 }
             }
