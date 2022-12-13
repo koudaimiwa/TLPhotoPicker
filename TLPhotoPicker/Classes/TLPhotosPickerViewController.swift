@@ -245,7 +245,6 @@ open class TLPhotosPickerViewController: UIViewController {
         if traitCollection.forceTouchCapability == .available && self.previewAtForceTouch {
             registerForPreviewing(with: self, sourceView: collectionView)
         }
-
         
         if #available(iOS 13.0, *) {
             let userInterfaceStyle = self.traitCollection.userInterfaceStyle
@@ -607,6 +606,8 @@ extension TLPhotosPickerViewController {
             queueForGroupedBy.async { [weak self] in
                 self?.getSections()
             }
+        } else {
+            updatePresentLimitedLibraryButton()
         }
     }
 }
@@ -886,8 +887,11 @@ extension TLPhotosPickerViewController: PHPhotoLibraryChangeObserver {
         if getfocusedIndex() == 0 {
             addIndex = self.usedCameraButton ? 1 : 0
         }
+        
         DispatchQueue.main.async { [weak self] in
-            guard let _self = self, let changes = _self.getChanges(changeInstance) else {
+            guard let _self = self else { return }
+            guard let changes = _self.getChanges(changeInstance) else {
+                _self.photoLibrary.fetchCollection(configure: _self.configure)
                 return
             }
             
@@ -947,7 +951,11 @@ extension TLPhotosPickerViewController: PHPhotoLibraryChangeObserver {
                 _self.focusedCollection?.fetchResult = changes.fetchResultAfterChanges
                 _self.reloadCollectionView()
             }
-            if let collection = _self.focusedCollection {
+            if var collection = _self.focusedCollection {
+                if let groupBy = _self.configure.groupByFetch {
+                    _self.focusedCollection?.reloadSection(groupedBy: groupBy)
+                    collection = _self.focusedCollection!
+                }
                 _self.collections[_self.getfocusedIndex()] = collection
                 _self.getSections()
                 _self.albumPopView.tableView.reloadRows(at: [IndexPath(row: _self.getfocusedIndex(), section: 0)], with: .none)
