@@ -1381,7 +1381,7 @@ extension TLPhotosPickerViewController {
             }
         }
         
-        func select() {
+        func select(isAllSelected: Bool) {
             //select
             guard getSelectedAssets(asset) == nil else { return }
             logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
@@ -1390,7 +1390,7 @@ extension TLPhotosPickerViewController {
             asset.selectedOrder = selectedAssets.count + 1
             selectedAssets.append(asset)
             cell?.selectedAsset = true
-            if asset.type != .photo, configure.autoPlay {
+            if asset.type != .photo, configure.autoPlay, !isAllSelected {
                 playVideo(asset: asset, indexPath: indexPath)
             }
             if configure.singleSelectedMode {
@@ -1406,7 +1406,7 @@ extension TLPhotosPickerViewController {
         
         if let _isAllSelected = isAllSelected {
             if _isAllSelected {
-                select()
+                select(isAllSelected: _isAllSelected)
             } else {
                 if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
                     deselect(index: index)
@@ -1421,7 +1421,7 @@ extension TLPhotosPickerViewController {
             if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
                deselect(index: index)
             } else {
-                select()
+                select(isAllSelected: false)
             }
             let checkAllSelected = checkAllSelectCells(section: collection.sections?[safe: indexPath.section])
 
